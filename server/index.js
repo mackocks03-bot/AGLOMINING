@@ -43,7 +43,10 @@ app.use('/api/images',   require('./routes/images'));
 app.use('/api/auth',     require('./routes/auth'));
 
 // ── Serve React build ─────────────────────────────────────────
-const publicPath = path.join(__dirname, 'public');
+const fs = require('fs');
+const clientDistPath = path.join(__dirname, '../client/dist');
+const serverPublicPath = path.join(__dirname, 'public');
+const publicPath = fs.existsSync(clientDistPath) ? clientDistPath : serverPublicPath;
 app.use(express.static(publicPath));
 
 // ── Health check ─────────────────────────────────────────────
