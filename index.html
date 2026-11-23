@@ -1,0 +1,1599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AFRIGOLD AND MINING INV. CO. LIMITED</title>
+  <meta name="description" content="AFRIGOLD AND MINING INV. CO. LIMITED — Transforming Natural Resources Into Sustainable Human Development. Gold mining leader in Chunya, Mbeya, Tanzania." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ===================== RESET & BASE ===================== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --black:   #0a0a0a;
+      --black2:  #111111;
+      --black3:  #1a1a1a;
+      --black4:  #222222;
+      --gold:    #f0c040;
+      --gold2:   #c9a84c;
+      --gold3:   #d4af37;
+      --gold4:   #ffd700;
+      --white:   #ffffff;
+      --offwhite:#f5f5f0;
+      --gray:    #888888;
+      --lightgray:#cccccc;
+      --green:   #22c55e;
+      --red:     #ef4444;
+      --transition: all 0.3s ease;
+      --shadow: 0 20px 60px rgba(0,0,0,0.5);
+      --gold-shadow: 0 0 30px rgba(240,192,64,0.3);
+    }
+    html { scroll-behavior: smooth; font-size: 16px; }
+    body {
+      background: var(--black);
+      color: var(--offwhite);
+      font-family: 'Inter', sans-serif;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+    h1,h2,h3,h4,h5 { font-family: 'Playfair Display', serif; line-height: 1.2; }
+    a { color: inherit; text-decoration: none; }
+    img { max-width: 100%; display: block; }
+    button { cursor: pointer; border: none; outline: none; font-family: 'Inter', sans-serif; }
+    section { position: relative; }
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
+
+    /* ===================== SCROLLBAR ===================== */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--black2); }
+    ::-webkit-scrollbar-thumb { background: var(--gold2); border-radius: 3px; }
+
+    /* ===================== NAV ===================== */
+    #navbar {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0.8rem 2.5rem;
+      background: rgba(10,10,10,0.0);
+      backdrop-filter: blur(0px);
+      transition: background 0.4s ease, backdrop-filter 0.4s ease, padding 0.3s ease, box-shadow 0.4s ease;
+    }
+    #navbar.scrolled {
+      background: rgba(10,10,10,0.95);
+      backdrop-filter: blur(16px);
+      padding: 0.5rem 2.5rem;
+      box-shadow: 0 4px 30px rgba(0,0,0,0.6);
+      border-bottom: 1px solid rgba(240,192,64,0.15);
+    }
+    .nav-brand { display: flex; align-items: center; gap: 0.8rem; }
+    .nav-brand img {
+      height: 44px; width: 44px;
+      object-fit: contain; border-radius: 4px;
+      border: 1px solid rgba(240,192,64,0.3);
+    }
+    .nav-brand-text {}
+    .nav-brand-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem; font-weight: 700;
+      color: var(--gold); letter-spacing: 0.08em;
+      line-height: 1;
+    }
+    .nav-brand-sub {
+      font-size: 0.6rem; color: var(--lightgray);
+      letter-spacing: 0.05em; line-height: 1.4;
+    }
+    .nav-links {
+      display: flex; align-items: center; gap: 0.1rem;
+      list-style: none;
+    }
+    .nav-links a {
+      font-size: 0.75rem; font-weight: 500; letter-spacing: 0.06em;
+      text-transform: uppercase; padding: 0.4rem 0.6rem;
+      color: var(--lightgray); border-radius: 4px;
+      transition: color 0.25s, background 0.25s;
+      white-space: nowrap;
+    }
+    .nav-links a:hover, .nav-links a.active { color: var(--gold); }
+    .nav-links .nav-admin a {
+      font-size: 0.65rem; color: var(--gray);
+      border: 1px solid rgba(136,136,136,0.3);
+      padding: 0.3rem 0.6rem; border-radius: 3px;
+      margin-left: 0.4rem;
+    }
+    .nav-links .nav-admin a:hover { color: var(--gold2); border-color: rgba(201,168,76,0.4); }
+    .hamburger {
+      display: none; flex-direction: column; gap: 5px;
+      background: none; padding: 4px;
+    }
+    .hamburger span {
+      display: block; width: 24px; height: 2px;
+      background: var(--gold); border-radius: 2px;
+      transition: var(--transition);
+    }
+    .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+    .mobile-menu {
+      display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(10,10,10,0.98); z-index: 999;
+      flex-direction: column; align-items: center; justify-content: center; gap: 1.5rem;
+    }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a {
+      font-size: 1.3rem; font-family: 'Playfair Display', serif;
+      color: var(--lightgray); letter-spacing: 0.05em;
+      padding: 0.5rem 1rem; border-bottom: 1px solid rgba(255,255,255,0.05);
+      width: 220px; text-align: center;
+      transition: color 0.25s;
+    }
+    .mobile-menu a:hover { color: var(--gold); }
+
+    /* ===================== HERO ===================== */
+    #hero {
+      height: 100vh; min-height: 620px;
+      position: relative; display: flex; align-items: center; justify-content: center;
+      padding: 75px 1.5rem 85px;
+      overflow: hidden;
+    }
+    .hero-bg {
+      position: absolute; inset: 0;
+      background-image: url('https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=1920&auto=format&fit=crop');
+      background-size: cover; background-position: center;
+      animation: kenBurns 20s ease-in-out infinite alternate;
+      will-change: transform;
+    }
+    @keyframes kenBurns {
+      0%   { transform: scale(1.0) translate(0%, 0%); }
+      100% { transform: scale(1.12) translate(-2%, -1%); }
+    }
+    .hero-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(
+        180deg,
+        rgba(0,0,0,0.55) 0%,
+        rgba(0,0,0,0.75) 50%,
+        rgba(0,0,0,0.9) 100%
+      );
+    }
+    .hero-particles { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+    .particle {
+      position: absolute; border-radius: 50%;
+      background: radial-gradient(circle, rgba(240,192,64,0.8) 0%, rgba(240,192,64,0) 70%);
+      animation: float linear infinite;
+      pointer-events: none;
+    }
+    @keyframes float {
+      0%   { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+      10%  { opacity: 1; }
+      90%  { opacity: 0.6; }
+      100% { transform: translateY(-100px) rotate(720deg); opacity: 0; }
+    }
+    .hero-content {
+      position: relative; z-index: 2;
+      text-align: center; padding: 0 1.5rem;
+      max-width: 900px;
+    }
+    .hero-eyebrow {
+      display: inline-block; font-size: 0.7rem; letter-spacing: 0.25em;
+      text-transform: uppercase; color: var(--gold); font-weight: 600;
+      border: 1px solid rgba(240,192,64,0.4); padding: 0.35rem 1rem;
+      border-radius: 20px; margin-bottom: 1.5rem;
+      background: rgba(240,192,64,0.08);
+      animation: fadeUp 1s ease 0.2s both;
+    }
+    .hero-title {
+      font-size: clamp(1.8rem, 5vw, 3.8rem);
+      font-weight: 900; letter-spacing: 0.04em;
+      line-height: 1.1; margin-bottom: 1.2rem;
+      animation: fadeUp 1s ease 0.4s both;
+    }
+    .hero-title .shimmer {
+      background: linear-gradient(
+        90deg,
+        var(--gold3) 0%,
+        var(--gold4) 30%,
+        #fff8dc 50%,
+        var(--gold4) 70%,
+        var(--gold3) 100%
+      );
+      background-size: 200% auto;
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: shimmerText 3s linear infinite;
+    }
+    @keyframes shimmerText {
+      0%   { background-position: 200% center; }
+      100% { background-position: -200% center; }
+    }
+    .hero-subtitle {
+      font-size: clamp(0.95rem, 2vw, 1.2rem);
+      color: var(--lightgray); font-weight: 300;
+      letter-spacing: 0.05em; margin-bottom: 2.5rem;
+      animation: fadeUp 1s ease 0.6s both;
+    }
+    .hero-buttons {
+      display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;
+      animation: fadeUp 1s ease 0.8s both;
+    }
+    .btn-gold {
+      display: inline-block; padding: 0.85rem 2rem;
+      background: linear-gradient(135deg, var(--gold), var(--gold2));
+      color: var(--black); font-weight: 700; font-size: 0.85rem;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      border-radius: 4px; transition: var(--transition);
+      border: none;
+    }
+    .btn-gold:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(240,192,64,0.4);
+    }
+    .btn-outline {
+      display: inline-block; padding: 0.85rem 2rem;
+      background: transparent; color: var(--gold); font-weight: 600;
+      font-size: 0.85rem; letter-spacing: 0.08em; text-transform: uppercase;
+      border: 1.5px solid var(--gold); border-radius: 4px;
+      transition: var(--transition);
+    }
+    .btn-outline:hover {
+      background: rgba(240,192,64,0.1); transform: translateY(-2px);
+    }
+    .hero-scroll {
+      position: absolute; bottom: 22px; left: 50%; transform: translateX(-50%);
+      z-index: 10; display: flex; flex-direction: column; align-items: center; gap: 0.35rem;
+      text-decoration: none; cursor: pointer; background: none; border: none; padding: 0;
+    }
+    .hero-scroll span {
+      font-size: 0.72rem; letter-spacing: 0.28em; color: var(--gold);
+      text-transform: uppercase; font-weight: 600;
+      transition: color 0.3s;
+    }
+    .hero-scroll:hover span { color: #ffffff; }
+    .scroll-arrow {
+      width: 14px; height: 14px; border-right: 2.5px solid var(--gold);
+      border-bottom: 2.5px solid var(--gold); transform: rotate(45deg);
+      animation: heroArrowBounce 1.8s ease-in-out infinite;
+      filter: drop-shadow(0 0 5px rgba(240,192,64,0.6));
+    }
+    @keyframes heroArrowBounce {
+      0%, 20%, 50%, 80%, 100% { transform: rotate(45deg) translate(0, 0); }
+      40% { transform: rotate(45deg) translate(6px, 6px); }
+      60% { transform: rotate(45deg) translate(3px, 3px); }
+    }
+
+    /* ===================== SECTION SHARED ===================== */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .reveal { opacity: 0; transform: translateY(40px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .section-badge {
+      display: inline-block; font-size: 0.65rem; letter-spacing: 0.2em;
+      text-transform: uppercase; color: var(--gold2); font-weight: 600;
+      background: rgba(201,168,76,0.1); border: 1px solid rgba(201,168,76,0.3);
+      padding: 0.3rem 0.9rem; border-radius: 20px; margin-bottom: 1rem;
+    }
+    .section-title {
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 700; margin-bottom: 1.2rem;
+    }
+    .gold-line {
+      width: 60px; height: 3px;
+      background: linear-gradient(90deg, var(--gold), var(--gold2));
+      margin-bottom: 1.5rem; border-radius: 2px;
+    }
+    .section-pad { padding: 6rem 0; }
+
+    /* ===================== HISTORY ===================== */
+    #history { background: var(--black2); }
+    .history-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 5rem;
+      align-items: center;
+    }
+    .history-text p {
+      color: var(--lightgray); line-height: 1.9; margin-bottom: 1rem; font-size: 0.95rem;
+    }
+    .history-stats {
+      display: flex; gap: 2rem; margin-top: 2rem; flex-wrap: wrap;
+    }
+    .stat-item { text-align: center; }
+    .stat-num {
+      font-family: 'Playfair Display', serif; font-size: 1.5rem;
+      font-weight: 700; color: var(--gold);
+    }
+    .stat-label { font-size: 0.7rem; letter-spacing: 0.1em; color: var(--gray); text-transform: uppercase; }
+    .history-image { position: relative; }
+    .history-image img {
+      width: 100%; height: 480px; object-fit: cover;
+      border-radius: 8px; border: 1px solid rgba(240,192,64,0.15);
+    }
+    .history-image-badge {
+      position: absolute; bottom: -1.5rem; left: -1.5rem;
+      background: linear-gradient(135deg, var(--gold), var(--gold2));
+      color: var(--black); padding: 1.2rem 1.5rem; border-radius: 6px;
+      font-family: 'Playfair Display', serif; font-weight: 700; font-size: 0.95rem;
+      line-height: 1.3; box-shadow: 0 10px 30px rgba(240,192,64,0.3);
+    }
+    .timeline-strip {
+      display: flex; gap: 0; margin-top: 4rem;
+      background: var(--black3); border-radius: 8px; overflow: hidden;
+      border: 1px solid rgba(240,192,64,0.1);
+    }
+    .timeline-item {
+      flex: 1; padding: 1.2rem 0.8rem; text-align: center;
+      border-right: 1px solid rgba(240,192,64,0.1);
+      transition: background 0.3s;
+    }
+    .timeline-item:last-child { border-right: none; }
+    .timeline-item:hover { background: rgba(240,192,64,0.05); }
+    .timeline-year { font-family: 'Playfair Display', serif; color: var(--gold); font-size: 1.1rem; font-weight: 700; }
+    .timeline-label { font-size: 0.65rem; color: var(--gray); letter-spacing: 0.08em; text-transform: uppercase; margin-top: 0.2rem; }
+
+    /* ===================== ABOUT ===================== */
+    #about {
+      background: var(--black3);
+      position: relative; overflow: hidden;
+    }
+    #about::before {
+      content: '';
+      position: absolute; inset: 0;
+      background-image: url('https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=1200&auto=format&fit=crop');
+      background-size: cover; background-position: center;
+      opacity: 0.04; pointer-events: none;
+    }
+    .about-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center;
+      position: relative; z-index: 1;
+    }
+    .about-text p { color: var(--lightgray); line-height: 1.9; margin-bottom: 1.2rem; font-size: 0.95rem; }
+    .about-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1.5rem; }
+    .about-card {
+      background: rgba(240,192,64,0.06); border: 1px solid rgba(240,192,64,0.2);
+      border-radius: 8px; padding: 1.3rem;
+      transition: border-color 0.3s, box-shadow 0.3s;
+    }
+    .about-card:hover { border-color: var(--gold); box-shadow: var(--gold-shadow); }
+    .about-card-label { font-size: 0.65rem; color: var(--gold2); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 0.5rem; font-weight: 600; }
+    .about-card p { font-size: 0.85rem; color: var(--lightgray); line-height: 1.6; margin: 0; }
+    .about-image-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; }
+    .about-image-grid img {
+      width: 100%; height: 220px; object-fit: cover;
+      border-radius: 6px; border: 1px solid rgba(240,192,64,0.1);
+      transition: transform 0.4s ease, border-color 0.3s;
+    }
+    .about-image-grid img:hover { transform: scale(1.03); border-color: rgba(240,192,64,0.3); }
+
+    /* ===================== LEADERSHIP / MD ===================== */
+    #leadership { background: var(--black2); }
+    .md-grid { display: grid; grid-template-columns: 1fr 1.3fr; gap: 5rem; align-items: center; }
+    .md-portrait img {
+      width: 100%; height: 520px; object-fit: cover;
+      border-radius: 8px; border: 1px solid rgba(240,192,64,0.15);
+      filter: grayscale(20%);
+    }
+    .md-portrait { position: relative; }
+    .md-portrait::after {
+      content: '';
+      position: absolute; top: 20px; left: 20px; right: -20px; bottom: -20px;
+      border: 2px solid rgba(240,192,64,0.2); border-radius: 8px;
+      pointer-events: none; z-index: -1;
+    }
+    .md-quote-mark {
+      font-size: 8rem; line-height: 0.5; color: var(--gold);
+      opacity: 0.25; font-family: 'Playfair Display', serif; margin-bottom: 1rem;
+    }
+    .md-text { color: var(--lightgray); line-height: 1.9; font-size: 0.95rem; font-style: italic; }
+    .md-text p { margin-bottom: 1rem; }
+    .md-signature { margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid rgba(240,192,64,0.2); }
+    .md-sig-name { font-family: 'Playfair Display', serif; font-size: 1.1rem; color: var(--gold); font-weight: 700; }
+    .md-sig-title { font-size: 0.75rem; color: var(--gray); letter-spacing: 0.1em; text-transform: uppercase; margin-top: 0.2rem; }
+
+    /* ===================== VALUES ===================== */
+    #values { background: var(--black3); }
+    .values-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; }
+    .value-card {
+      background: var(--black2); border: 1px solid rgba(240,192,64,0.1);
+      border-radius: 10px; padding: 2rem 1.5rem;
+      text-align: center; transition: border-color 0.35s, transform 0.35s, box-shadow 0.35s;
+      position: relative; overflow: hidden; cursor: default;
+    }
+    .value-card::before {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(240,192,64,0.05), transparent);
+      opacity: 0; transition: opacity 0.35s;
+    }
+    .value-card:hover { border-color: var(--gold); transform: translateY(-6px); box-shadow: 0 20px 50px rgba(240,192,64,0.15); }
+    .value-card:hover::before { opacity: 1; }
+    .value-icon { font-size: 2.2rem; margin-bottom: 1rem; display: block; }
+    .value-title { font-family: 'Playfair Display', serif; font-size: 1.1rem; color: var(--gold); margin-bottom: 0.6rem; }
+    .value-text { font-size: 0.85rem; color: var(--lightgray); line-height: 1.7; }
+
+    /* ===================== HEALTH & SAFETY ===================== */
+    #health-safety { background: var(--black); }
+    .hs-grid { display: grid; grid-template-columns: 1fr 1fr; }
+    .hs-panel {
+      position: relative; height: 600px; overflow: hidden;
+      display: flex; align-items: flex-end;
+    }
+    .hs-panel img {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%; object-fit: cover;
+      transition: transform 0.6s ease;
+    }
+    .hs-panel:hover img { transform: scale(1.05); }
+    .hs-panel-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(0deg, rgba(0,0,0,0.92) 0%, rgba(0,0,0,0.5) 50%, rgba(0,0,0,0.2) 100%);
+    }
+    .hs-panel-content { position: relative; z-index: 2; padding: 2.5rem; }
+    .hs-panel-icon { font-size: 2rem; margin-bottom: 0.8rem; }
+    .hs-panel-title { font-family: 'Playfair Display', serif; font-size: 1.5rem; color: var(--gold); margin-bottom: 0.8rem; }
+    .hs-panel-text { font-size: 0.85rem; color: var(--lightgray); line-height: 1.8; }
+
+    /* ===================== ENVIRONMENT ===================== */
+    #environment {
+      position: relative; overflow: hidden; padding: 7rem 0;
+      background-attachment: fixed;
+      background-image: url('https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=1200&auto=format&fit=crop');
+      background-size: cover; background-position: center;
+    }
+    .env-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(0,0,0,0.92) 0%, rgba(0,0,0,0.75) 100%);
+    }
+    .env-content { position: relative; z-index: 2; max-width: 800px; margin: 0 auto; text-align: center; padding: 0 2rem; }
+    .env-text { color: var(--lightgray); font-size: 1rem; line-height: 1.9; margin: 1.5rem 0 2.5rem; }
+    .env-bullets { display: flex; gap: 2rem; justify-content: center; flex-wrap: wrap; }
+    .env-bullet {
+      background: rgba(240,192,64,0.08); border: 1px solid rgba(240,192,64,0.25);
+      border-radius: 30px; padding: 0.6rem 1.4rem;
+      font-size: 0.8rem; color: var(--gold); font-weight: 500;
+      display: flex; align-items: center; gap: 0.5rem;
+    }
+
+    /* ===================== CSR ===================== */
+    #csr { background: var(--black2); }
+    .csr-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.5rem; }
+    .csr-card {
+      border-radius: 10px; overflow: hidden;
+      border: 1px solid rgba(240,192,64,0.1);
+      background: var(--black3);
+      transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
+    }
+    .csr-card:hover { border-color: var(--gold2); transform: translateY(-6px); box-shadow: 0 20px 50px rgba(0,0,0,0.5); }
+    .csr-card-img { overflow: hidden; height: 220px; }
+    .csr-card-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
+    .csr-card:hover .csr-card-img img { transform: scale(1.1); }
+    .csr-card-body { padding: 1.5rem; }
+    .csr-card-icon { font-size: 1.5rem; margin-bottom: 0.5rem; }
+    .csr-card-title { font-family: 'Playfair Display', serif; font-size: 1.1rem; color: var(--gold); margin-bottom: 0.6rem; }
+    .csr-card-text { font-size: 0.85rem; color: var(--lightgray); line-height: 1.7; }
+
+    /* ===================== WORKFORCE ===================== */
+    #workforce {
+      position: relative; overflow: hidden; min-height: 500px;
+      background-image: url('https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=1200&auto=format&fit=crop');
+      background-size: cover; background-position: center;
+      background-attachment: fixed;
+      display: flex; align-items: center;
+    }
+    .workforce-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.78); }
+    .workforce-content { position: relative; z-index: 2; padding: 6rem 0; }
+    .workforce-inner { max-width: 650px; }
+    .wf-badge {
+      display: inline-block; background: var(--gold);
+      color: var(--black); font-weight: 700; font-size: 0.75rem;
+      letter-spacing: 0.15em; text-transform: uppercase;
+      padding: 0.4rem 1rem; border-radius: 20px; margin-bottom: 1.2rem;
+    }
+    .workforce-text { color: var(--lightgray); font-size: 0.95rem; line-height: 1.9; }
+
+    /* ===================== CAREERS ===================== */
+    #careers { background: var(--black3); }
+    .careers-grid { display: grid; grid-template-columns: 1.3fr 1fr; gap: 4rem; align-items: center; }
+    .careers-text p { color: var(--lightgray); line-height: 1.9; margin-bottom: 1.5rem; font-size: 0.95rem; }
+    .careers-tags { display: flex; flex-wrap: wrap; gap: 0.6rem; }
+    .careers-tag {
+      background: rgba(240,192,64,0.08); border: 1px solid rgba(240,192,64,0.2);
+      color: var(--gold2); font-size: 0.75rem; padding: 0.4rem 0.9rem;
+      border-radius: 20px; font-weight: 500; letter-spacing: 0.05em;
+      transition: background 0.25s, border-color 0.25s;
+    }
+    .careers-tag:hover { background: rgba(240,192,64,0.15); border-color: var(--gold); }
+    .careers-cta-card {
+      background: var(--black2); border: 1px solid rgba(240,192,64,0.2);
+      border-radius: 12px; padding: 2.5rem; text-align: center;
+    }
+    .careers-cta-card h3 { font-family: 'Playfair Display', serif; font-size: 1.5rem; margin-bottom: 0.8rem; color: var(--gold); }
+    .careers-cta-card p { color: var(--lightgray); font-size: 0.85rem; margin-bottom: 1.5rem; line-height: 1.6; }
+    .careers-cta-card .email { color: var(--gold2); font-size: 0.85rem; margin-top: 1rem; }
+
+    /* ===================== CONTACT ===================== */
+    #contact { background: var(--black2); }
+    .contact-grid { display: grid; grid-template-columns: 1fr 1.5fr; gap: 5rem; align-items: start; }
+    .contact-info-item { display: flex; gap: 1rem; margin-bottom: 2rem; align-items: flex-start; }
+    .contact-icon {
+      font-size: 1.3rem; width: 44px; height: 44px;
+      background: rgba(240,192,64,0.1); border: 1px solid rgba(240,192,64,0.2);
+      border-radius: 8px; display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .contact-info-label { font-size: 0.65rem; color: var(--gold2); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 0.3rem; font-weight: 600; }
+    .contact-info-val { color: var(--lightgray); font-size: 0.9rem; }
+    .contact-form { background: var(--black3); border: 1px solid rgba(240,192,64,0.12); border-radius: 12px; padding: 2.5rem; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .form-group { margin-bottom: 1.2rem; }
+    .form-group label { display: block; font-size: 0.75rem; color: var(--gold2); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.5rem; font-weight: 600; }
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%; background: var(--black2); border: 1px solid rgba(240,192,64,0.15);
+      color: var(--offwhite); font-family: 'Inter', sans-serif; font-size: 0.9rem;
+      padding: 0.8rem 1rem; border-radius: 6px;
+      transition: border-color 0.25s, box-shadow 0.25s;
+      outline: none;
+    }
+    .form-group input::placeholder, .form-group textarea::placeholder { color: var(--gray); }
+    .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+      border-color: var(--gold2); box-shadow: 0 0 0 3px rgba(240,192,64,0.08);
+    }
+    .form-group select { appearance: none; cursor: pointer; }
+    .form-group select option { background: var(--black2); }
+    .form-group textarea { min-height: 130px; resize: vertical; }
+    .btn-submit {
+      width: 100%; padding: 1rem;
+      background: linear-gradient(135deg, var(--gold), var(--gold2));
+      color: var(--black); font-weight: 700; font-size: 0.9rem;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      border-radius: 6px; border: none; cursor: pointer;
+      transition: opacity 0.25s, transform 0.25s;
+      display: flex; align-items: center; justify-content: center; gap: 0.5rem;
+    }
+    .btn-submit:hover:not(:disabled) { opacity: 0.9; transform: translateY(-2px); }
+    .btn-submit:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+    .form-feedback {
+      display: none; margin-top: 1rem; padding: 1rem 1.2rem;
+      border-radius: 6px; font-size: 0.85rem; font-weight: 500;
+      align-items: center; gap: 0.6rem;
+    }
+    .form-feedback.success { background: rgba(34,197,94,0.12); border: 1px solid rgba(34,197,94,0.3); color: var(--green); display: flex; }
+    .form-feedback.error   { background: rgba(239,68,68,0.12); border: 1px solid rgba(239,68,68,0.3);  color: var(--red);   display: flex; }
+    .spinner {
+      width: 18px; height: 18px;
+      border: 2px solid rgba(10,10,10,0.3); border-top-color: var(--black);
+      border-radius: 50%; animation: spin 0.7s linear infinite;
+      display: none;
+    }
+    .spinner.active { display: inline-block; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ===================== FOOTER ===================== */
+    footer {
+      background: var(--black); border-top: 1px solid rgba(240,192,64,0.12);
+      padding: 4rem 0 2rem;
+    }
+    .footer-grid { display: grid; grid-template-columns: 1.4fr 1fr 1fr; gap: 3rem; margin-bottom: 3rem; }
+    .footer-brand img { height: 50px; width: 50px; object-fit: contain; border-radius: 4px; margin-bottom: 1rem; border: 1px solid rgba(240,192,64,0.2); }
+    .footer-brand-name { font-family: 'Playfair Display', serif; font-size: 1rem; color: var(--gold); font-weight: 700; margin-bottom: 0.3rem; }
+    .footer-tagline { font-size: 0.8rem; color: var(--gray); line-height: 1.6; margin-bottom: 1.2rem; }
+    .footer-social { display: flex; gap: 0.6rem; }
+    .footer-social a {
+      width: 34px; height: 34px; background: var(--black3);
+      border: 1px solid rgba(240,192,64,0.15); border-radius: 6px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.9rem; transition: border-color 0.25s, background 0.25s;
+    }
+    .footer-social a:hover { border-color: var(--gold); background: rgba(240,192,64,0.1); }
+    .footer-col h4 { font-family: 'Playfair Display', serif; font-size: 1rem; color: var(--gold); margin-bottom: 1rem; }
+    .footer-col ul { list-style: none; }
+    .footer-col ul li { margin-bottom: 0.5rem; }
+    .footer-col ul li a { font-size: 0.82rem; color: var(--gray); transition: color 0.25s; }
+    .footer-col ul li a:hover { color: var(--gold); }
+    .footer-contact-item { display: flex; gap: 0.6rem; margin-bottom: 0.6rem; align-items: flex-start; }
+    .footer-contact-icon { color: var(--gold2); font-size: 0.9rem; margin-top: 2px; }
+    .footer-contact-text { font-size: 0.8rem; color: var(--gray); line-height: 1.5; }
+    .footer-bottom {
+      border-top: 1px solid rgba(255,255,255,0.05);
+      padding-top: 1.5rem;
+      display: flex; align-items: center; justify-content: space-between; flex-wrap: gap;
+      gap: 1rem;
+    }
+    .footer-copy { font-size: 0.75rem; color: var(--gray); }
+    .footer-admin a { font-size: 0.7rem; color: rgba(136,136,136,0.5); letter-spacing: 0.08em; transition: color 0.25s; }
+    .footer-admin a:hover { color: var(--gold2); }
+
+    /* ===================== SECTION HEADINGS CENTER ===================== */
+    .section-header { text-align: center; margin-bottom: 3.5rem; }
+    .section-header .gold-line { margin: 0 auto 1.5rem; }
+
+    /* ===================== RESPONSIVE ===================== */
+    @media (max-width: 1024px) {
+      .values-grid { grid-template-columns: repeat(2,1fr); }
+      .history-grid, .about-grid, .md-grid, .contact-grid { grid-template-columns: 1fr; gap: 3rem; }
+      .hs-grid { grid-template-columns: 1fr; }
+      .hs-panel { height: 450px; }
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+      .careers-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .hamburger { display: flex; }
+      .history-image-badge { display: none; }
+      .csr-grid { grid-template-columns: 1fr; }
+      .form-row { grid-template-columns: 1fr; }
+      .footer-grid { grid-template-columns: 1fr; }
+      .values-grid { grid-template-columns: 1fr 1fr; }
+      #navbar { padding: 0.8rem 1.2rem; }
+      .about-cards { grid-template-columns: 1fr; }
+      .footer-bottom { flex-direction: column; text-align: center; }
+      .timeline-strip { flex-direction: column; }
+      .timeline-item { border-right: none; border-bottom: 1px solid rgba(240,192,64,0.1); }
+    }
+    @media (max-width: 480px) {
+      .values-grid { grid-template-columns: 1fr; }
+      .hero-buttons { flex-direction: column; align-items: center; }
+    }
+
+    /* ===================== WHATSAPP FLOAT ===================== */
+    .whatsapp-float {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      z-index: 999;
+      width: 56px;
+      height: 56px;
+      background: #25D366;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 20px rgba(37,211,102,0.4);
+      animation: wa-pulse 2s ease-in-out infinite;
+      transition: transform 0.3s ease;
+      cursor: pointer;
+    }
+    .whatsapp-float:hover { transform: scale(1.1); }
+    .whatsapp-float svg { width: 30px; height: 30px; fill: white; }
+    @keyframes wa-pulse {
+      0%, 100% { box-shadow: 0 4px 20px rgba(37,211,102,0.4); }
+      50% { box-shadow: 0 4px 30px rgba(37,211,102,0.7), 0 0 0 8px rgba(37,211,102,0.15); }
+    }
+    .wa-tooltip {
+      position: absolute;
+      right: 70px;
+      background: #333;
+      color: white;
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      white-space: nowrap;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s;
+    }
+    .whatsapp-float:hover .wa-tooltip { opacity: 1; }
+
+    /* ===================== SCROLL TO TOP ===================== */
+    .scroll-top {
+      position: fixed;
+      bottom: 6rem;
+      right: 2rem;
+      z-index: 998;
+      width: 44px;
+      height: 44px;
+      background: linear-gradient(135deg, #c9a84c, #f0c040);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 15px rgba(201,168,76,0.4);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s, transform 0.3s;
+      cursor: pointer;
+      border: none;
+    }
+    .scroll-top.visible { opacity: 1; pointer-events: auto; }
+    .scroll-top:hover { transform: translateY(-3px); }
+    .scroll-top svg { width: 20px; height: 20px; fill: #0a0a0a; }
+
+    /* ===================== LOADER ===================== */
+    #loader {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      background: #0a0a0a;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      transition: opacity 0.6s ease, visibility 0.6s ease;
+    }
+    #loader.hidden { opacity: 0; visibility: hidden; }
+    .loader-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #c9a84c, #f0c040);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 2rem;
+      animation: loader-pulse 1s ease-in-out infinite alternate;
+    }
+    @keyframes loader-pulse {
+      from { opacity: 0.6; }
+      to { opacity: 1; }
+    }
+    .loader-bar {
+      width: 200px;
+      height: 3px;
+      background: #1a1a1a;
+      border-radius: 2px;
+      overflow: hidden;
+    }
+    .loader-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #c9a84c, #f0c040);
+      border-radius: 2px;
+      animation: loader-fill 1.4s ease-in-out forwards;
+    }
+    @keyframes loader-fill {
+      from { width: 0%; }
+      to { width: 100%; }
+    }
+
+    /* ===================== FORM INLINE ERRORS ===================== */
+    .field-error {
+      color: var(--red);
+      font-size: 0.75rem;
+      margin-top: 0.3rem;
+      display: none;
+    }
+    .field-error.visible { display: block; }
+    .char-counter {
+      font-size: 0.72rem;
+      color: var(--gray);
+      text-align: right;
+      margin-top: 0.25rem;
+    }
+    .char-counter.warn { color: var(--red); }
+  </style>
+</head>
+
+<body>
+
+<!-- ==================== LOADER ==================== -->
+<div id="loader">
+  <div class="loader-logo">AFRIGOLD</div>
+  <div class="loader-bar"><div class="loader-bar-fill"></div></div>
+</div>
+
+<!-- ==================== MOBILE MENU ==================== -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#hero"         onclick="closeMobile()">Home</a>
+  <a href="#about"        onclick="closeMobile()">About</a>
+  <a href="#leadership"   onclick="closeMobile()">Leadership</a>
+  <a href="#values"       onclick="closeMobile()">Values</a>
+  <a href="#health-safety"onclick="closeMobile()">Health &amp; Safety</a>
+  <a href="#environment"  onclick="closeMobile()">Environment</a>
+  <a href="#csr"          onclick="closeMobile()">CSR</a>
+  <a href="#careers"      onclick="closeMobile()">Careers</a>
+  <a href="#contact"      onclick="closeMobile()">Contact</a>
+  <a href="admin.html"    onclick="closeMobile()" style="color:var(--gray);font-size:0.9rem;margin-top:1rem;">Admin Portal</a>
+</div>
+
+<!-- ==================== NAVBAR ==================== -->
+<nav id="navbar">
+  <div class="nav-brand">
+    <img src="LOGO.jpeg" alt="AFRIGOLD Logo" />
+    <div class="nav-brand-text">
+      <div class="nav-brand-title">AFRIGOLD</div>
+      <div class="nav-brand-sub">&amp; Mining Inv. Co. Limited</div>
+    </div>
+  </div>
+  <ul class="nav-links">
+    <li><a href="#hero">Home</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#leadership">Leadership</a></li>
+    <li><a href="#values">Values</a></li>
+    <li><a href="#health-safety">Health &amp; Safety</a></li>
+    <li><a href="#environment">Environment</a></li>
+    <li><a href="#csr">CSR</a></li>
+    <li><a href="#careers">Careers</a></li>
+    <li><a href="#contact">Contact</a></li>
+    <li class="nav-admin"><a href="admin.html">Admin</a></li>
+  </ul>
+  <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- ==================== HERO ==================== -->
+<section id="hero">
+  <div class="hero-bg" id="heroBg"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-particles" id="heroParticles"></div>
+
+  <div class="hero-content">
+    <span class="hero-eyebrow">Est. 2021 · Chunya, Tanzania · Gold Mining &amp; Trading</span>
+    <h1 class="hero-title">
+      <span class="shimmer" id="heroTitle">AFRIGOLD AND MINING INV. CO. LIMITED</span>
+    </h1>
+    <p class="hero-subtitle" id="heroSubtitle">Transforming Natural Resources Into Sustainable Human Development</p>
+    <div class="hero-buttons">
+      <a href="#about" class="btn-gold">Discover Our Story</a>
+      <a href="#contact" class="btn-outline">Contact Us</a>
+    </div>
+  </div>
+
+  <div class="hero-scroll">
+    <span>Scroll</span>
+    <div class="scroll-arrow"></div>
+  </div>
+</section>
+
+<!-- ==================== HISTORY ==================== -->
+<section id="history" class="section-pad">
+  <div class="container">
+    <div class="history-grid">
+      <div class="history-text reveal">
+        <span class="section-badge">Est. 2021 | Chunya, Tanzania</span>
+        <h2 class="section-title">Our History</h2>
+        <div class="gold-line"></div>
+        <p id="historyText1">Tanzania has a thriving mining industry, and gold mining is a potential driver of economic development. Sound national development plans, world-class infrastructure, investor-friendly policies, and regulatory frameworks attract significant foreign investments to Tanzania. The nation's abundant natural resources and biodiversity attracted the founders of AFRIGOLD AND MINING INV. CO. LIMITED.</p>
+        <p id="historyText2">In 2026, recognizing that Tanzania is a land of endless opportunities for mining and investment, the promoters took a major step forward by entering the rapidly growing mining sector. AFRIGOLD AND MINING INV. CO. LIMITED's key project activity involves the extraction of high-quality gold bars and gold concentrates.</p>
+        <div class="history-stats">
+          <div class="stat-item">
+            <div class="stat-num">2021</div>
+            <div class="stat-label">Est.</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-num">Chunya</div>
+            <div class="stat-label">Mbeya Region</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-num">Gold</div>
+            <div class="stat-label">Mining &amp; Trading</div>
+          </div>
+        </div>
+      </div>
+      <div class="history-image reveal" style="transition-delay:0.15s">
+        <img src="SCARVETOR1.jpeg" alt="AFRIGOLD Mining Operations" />
+        <div class="history-image-badge">
+          Chunya, Mbeya<br/>United Republic of Tanzania
+        </div>
+      </div>
+    </div>
+
+    <div class="timeline-strip reveal" style="transition-delay:0.25s">
+      <div class="timeline-item"><div class="timeline-year">2021</div><div class="timeline-label">Founded</div></div>
+      <div class="timeline-item"><div class="timeline-year">2022</div><div class="timeline-label">Operations</div></div>
+      <div class="timeline-item"><div class="timeline-year">2023</div><div class="timeline-label">Expansion</div></div>
+      <div class="timeline-item"><div class="timeline-year">2024</div><div class="timeline-label">Growth</div></div>
+      <div class="timeline-item"><div class="timeline-year">2025</div><div class="timeline-label">Global</div></div>
+      <div class="timeline-item"><div class="timeline-year">2026</div><div class="timeline-label">Leading</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== ABOUT ==================== -->
+<section id="about" class="section-pad">
+  <div class="container">
+    <div class="about-grid">
+      <div class="about-text reveal">
+        <span class="section-badge">Who We Are</span>
+        <h2 class="section-title">About Us</h2>
+        <div class="gold-line"></div>
+        <p id="aboutDesc">AFRIGOLD AND MINING INV. CO. LIMITED is a pioneering gold mining leader headquartered in Chunya, Mbeya, United Republic of Tanzania. Established in 2021, the company is founded on sustainable business philosophies intended to transform natural resources into tools for national development. Our state-of-the-art facility in Chunya includes exploration, mines, a laboratory, a chemical plant, stores, a workshop, processing plants, sales, logistics, and construction. The company has emerged as a leading player in the global mining industry by expanding its presence in gold mining and trading.</p>
+        <div class="about-cards">
+          <div class="about-card">
+            <div class="about-card-label">Our Vision</div>
+            <p id="aboutVision">To be the most responsible and largest gold mining corporation in the world, focusing on sustainable human development.</p>
+          </div>
+          <div class="about-card">
+            <div class="about-card-label">Our Mission</div>
+            <p id="aboutMission">To deliver incredible synergy and enduring value to the national economy and to humanity.</p>
+          </div>
+        </div>
+      </div>
+      <div class="about-image-grid reveal" style="transition-delay:0.15s" id="aboutImageGrid">
+        <img src="SCARVETOR2.jpeg" alt="Mining Equipment" />
+        <img src="SCARVETOR3.jpeg" alt="Mining Site" />
+        <img src="https://images.unsplash.com/photo-1610375461246-83df859d849d?w=600&auto=format&fit=crop" alt="Gold Bars" />
+        <img src="https://images.unsplash.com/photo-1532094349884-543559338ec7?w=600&auto=format&fit=crop" alt="Laboratory" />
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== LEADERSHIP ==================== -->
+<section id="leadership" class="section-pad">
+  <div class="container">
+    <div class="section-header reveal">
+      <span class="section-badge">Leadership</span>
+      <h2 class="section-title">Managing Director's Message</h2>
+      <div class="gold-line"></div>
+    </div>
+    <div class="md-grid">
+      <div class="md-portrait reveal">
+        <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=600&auto=format&fit=crop" alt="Managing Director" />
+      </div>
+      <div class="reveal" style="transition-delay:0.15s">
+        <div class="md-quote-mark">&ldquo;</div>
+        <div class="md-text" id="mdMessage">
+          <p>A hearty welcome to AFRIGOLD AND MINING INV. CO. LIMITED. We are transforming natural resources into sustainable human development and nation-building tools for humanity and the modern world.</p>
+          <p>As a responsible corporate entity operating in the United Republic of Tanzania, we are committed to synergistically adding value to the country's mining industry and participating in sustainable economic development. Tanzania is keeping pace with the rest of the world by promoting investments and strengthening national institutions.</p>
+          <p>We value the environment and humanity. We are committed to improving the well-being of local communities in Chunya and creating enduring value for all stakeholders. Looking ahead, our business philosophy of nation-building will enhance our goodwill and transform our status into a premier global entity.</p>
+        </div>
+        <div class="md-signature">
+          <div class="md-sig-name">Managing Director</div>
+          <div class="md-sig-title">AFRIGOLD AND MINING INV. CO. LIMITED</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== VALUES ==================== -->
+<section id="values" class="section-pad">
+  <div class="container">
+    <div class="section-header reveal">
+      <span class="section-badge">What We Stand For</span>
+      <h2 class="section-title">Core Values</h2>
+      <div class="gold-line"></div>
+    </div>
+    <div class="values-grid">
+      <div class="value-card reveal">
+        <span class="value-icon">🛡️</span>
+        <div class="value-title">Safety</div>
+        <p class="value-text">We target 'Zero Harm' performance in every operation. The safety of our workforce is non-negotiable.</p>
+      </div>
+      <div class="value-card reveal" style="transition-delay:0.1s">
+        <span class="value-icon">💎</span>
+        <div class="value-title">Transparency</div>
+        <p class="value-text">We uphold open and ethical communication with all stakeholders — partners, regulators, and communities.</p>
+      </div>
+      <div class="value-card reveal" style="transition-delay:0.2s">
+        <span class="value-icon">⚖️</span>
+        <div class="value-title">Accountability</div>
+        <p class="value-text">We take ownership of our environmental and social impact, holding ourselves to the highest corporate standards.</p>
+      </div>
+      <div class="value-card reveal" style="transition-delay:0.3s">
+        <span class="value-icon">🤝</span>
+        <div class="value-title">Respect</div>
+        <p class="value-text">We treat the land, the law, and the people of Tanzania with the highest dignity and cultural sensitivity.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== HEALTH & SAFETY ==================== -->
+<section id="health-safety">
+  <div style="text-align:center;padding:3rem 0 1rem;background:var(--black);" class="reveal">
+    <span class="section-badge">Our Commitment</span>
+    <h2 class="section-title" style="margin-bottom:0.5rem;">Health &amp; Safety</h2>
+    <div class="gold-line" style="margin:0.8rem auto 0;"></div>
+  </div>
+  <div class="hs-grid">
+    <div class="hs-panel">
+      <img src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=800&auto=format&fit=crop" alt="Occupational Health" />
+      <div class="hs-panel-overlay"></div>
+      <div class="hs-panel-content">
+        <div class="hs-panel-icon">🏥</div>
+        <h3 class="hs-panel-title">Health</h3>
+        <p class="hs-panel-text">At AFRIGOLD, we prioritize the physical and mental well-being of our workforce. We believe a healthy team is the foundation of a productive mine. We provide on-site medical services, conduct regular health screenings, and implement robust programs to combat local health challenges, ensuring high standards of sanitation and workplace hygiene across all sites in Chunya.</p>
+      </div>
+    </div>
+    <div class="hs-panel">
+      <img src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=800&auto=format&fit=crop" alt="Mining Safety" />
+      <div class="hs-panel-overlay"></div>
+      <div class="hs-panel-content">
+        <div class="hs-panel-icon">⛑️</div>
+        <h3 class="hs-panel-title">Safety</h3>
+        <p class="hs-panel-text">Safety is our license to operate. Our top-notch health and safety policies make our operations a safer place to work. We strive to maintain a secure mining industry by embedding a culture of safety and individual accountability at every level. Our business principles are based on targeting 'Zero Harm.' Our operations strictly adhere to the Occupational Safety and Health Act (OSHA 2003) of Tanzania.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== ENVIRONMENT ==================== -->
+<section id="environment">
+  <div class="env-overlay"></div>
+  <div class="env-content reveal">
+    <span class="section-badge">Stewardship</span>
+    <h2 class="section-title">Environmental Commitment</h2>
+    <div class="gold-line" style="margin:0.8rem auto 1rem;"></div>
+    <p class="env-text">AFRIGOLD AND MINING INV. CO. LIMITED is committed to addressing environmental impacts and protecting the local ecosystem of Chunya, including diverse species of animals and plants. We have implemented international standards regarding the handling of hazardous materials. We ensure improved energy efficiency and increased productivity to minimize our ecological footprint. We utilize advanced filtration systems for treating and handling tailing materials before they are managed at designated sites.</p>
+    <div class="env-bullets">
+      <span class="env-bullet">🌿 Ecosystem Protection</span>
+      <span class="env-bullet">⚡ Energy Efficiency</span>
+      <span class="env-bullet">💧 Water Treatment</span>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== CSR ==================== -->
+<section id="csr" class="section-pad">
+  <div class="container">
+    <div class="section-header reveal">
+      <span class="section-badge">Giving Back</span>
+      <h2 class="section-title">Corporate Social Responsibility</h2>
+      <div class="gold-line"></div>
+    </div>
+    <div class="csr-grid">
+      <div class="csr-card reveal">
+        <div class="csr-card-img">
+          <img src="https://images.unsplash.com/photo-1497486751825-1233686d5d80?w=600&auto=format&fit=crop" alt="Education CSR" />
+        </div>
+        <div class="csr-card-body">
+          <div class="csr-card-icon">📚</div>
+          <h3 class="csr-card-title">Education</h3>
+          <p class="csr-card-text">Construction and renovation of local schools and classrooms. We invest in the future of Chunya's children by building educational infrastructure and providing learning materials.</p>
+        </div>
+      </div>
+      <div class="csr-card reveal" style="transition-delay:0.1s">
+        <div class="csr-card-img">
+          <img src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=600&auto=format&fit=crop" alt="Healthcare CSR" />
+        </div>
+        <div class="csr-card-body">
+          <div class="csr-card-icon">🏥</div>
+          <h3 class="csr-card-title">Healthcare</h3>
+          <p class="csr-card-text">Improving community access to health services and clean water. We partner with local health authorities to extend medical care to underserved residents of Chunya and Mbeya.</p>
+        </div>
+      </div>
+      <div class="csr-card reveal" style="transition-delay:0.2s">
+        <div class="csr-card-img">
+          <img src="https://images.unsplash.com/photo-1521791136064-7986c2920216?w=600&auto=format&fit=crop" alt="Local Growth CSR" />
+        </div>
+        <div class="csr-card-body">
+          <div class="csr-card-icon">💼</div>
+          <h3 class="csr-card-title">Local Growth</h3>
+          <p class="csr-card-text">Prioritizing local business supply chains and economic empowerment. We actively engage Tanzanian suppliers, contractors, and entrepreneurs in our operations.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== WORKFORCE ==================== -->
+<section id="workforce">
+  <div class="workforce-overlay"></div>
+  <div class="workforce-content">
+    <div class="container">
+      <div class="workforce-inner reveal">
+        <span class="section-badge">Our People</span>
+        <h2 class="section-title" style="margin-bottom:1rem;">National Workforce</h2>
+        <div class="gold-line"></div>
+        <span class="wf-badge">🇹🇿 Tanzania First</span>
+        <p class="workforce-text">In alignment with Tanzania's Local Content regulations, we prioritize the recruitment of talented Tanzanians. Since 2021, we have remained committed to the 'Tanzania First' principle. We actively recruit from Chunya and Mbeya, providing stable employment and facilitating the transfer of technical expertise to ensure a sustainable future for the Tanzanian mining industry.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== CAREERS ==================== -->
+<section id="careers" class="section-pad">
+  <div class="container">
+    <div class="section-header reveal">
+      <span class="section-badge">Join Our Team</span>
+      <h2 class="section-title">Careers</h2>
+      <div class="gold-line"></div>
+    </div>
+    <div class="careers-grid">
+      <div class="careers-text reveal">
+        <p>We offer more than just a job; we provide a platform for a rewarding career in one of Tanzania's most dynamic sectors. At AFRIGOLD, your growth is part of our mission. We invest in talent, foster inclusion, and build leaders from within our communities.</p>
+        <div class="careers-tags">
+          <span class="careers-tag">Mining Operations</span>
+          <span class="careers-tag">Laboratory Sciences</span>
+          <span class="careers-tag">Environmental &amp; Safety</span>
+          <span class="careers-tag">Administration</span>
+          <span class="careers-tag">Engineering</span>
+          <span class="careers-tag">Logistics</span>
+        </div>
+      </div>
+      <div class="careers-cta-card reveal" style="transition-delay:0.15s">
+        <h3>Ready to Apply?</h3>
+        <p>Send your CV and a cover letter to our HR department. We review applications from Tanzanian nationals year-round.</p>
+        <a href="mailto:hr@afrigold.co.tz" class="btn-gold" style="display:inline-block;">Apply Now →</a>
+        <p class="email">📧 hr@afrigold.co.tz</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== CONTACT ==================== -->
+<section id="contact" class="section-pad">
+  <div class="container">
+    <div class="section-header reveal">
+      <span class="section-badge">Get In Touch</span>
+      <h2 class="section-title">Contact Us</h2>
+      <div class="gold-line"></div>
+    </div>
+    <div class="contact-grid">
+      <div class="reveal">
+        <div class="contact-info-item">
+          <div class="contact-icon">📍</div>
+          <div>
+            <div class="contact-info-label">Address</div>
+            <div class="contact-info-val" id="contactAddress">P.O. Box 171, Chunya, Mbeya, United Republic of Tanzania</div>
+          </div>
+        </div>
+        <div class="contact-info-item">
+          <div class="contact-icon">📧</div>
+          <div>
+            <div class="contact-info-label">General Enquiries</div>
+            <div class="contact-info-val"><a id="contactEmail1" href="mailto:info@afrigold.co.tz" style="color:var(--gold2);">info@afrigold.co.tz</a></div>
+          </div>
+        </div>
+        <div class="contact-info-item">
+          <div class="contact-icon">📧</div>
+          <div>
+            <div class="contact-info-label">Careers</div>
+            <div class="contact-info-val"><a href="mailto:hr@afrigold.co.tz" style="color:var(--gold2);">hr@afrigold.co.tz</a></div>
+          </div>
+        </div>
+        <div class="contact-info-item">
+          <div class="contact-icon">🌍</div>
+          <div>
+            <div class="contact-info-label">Location</div>
+            <div class="contact-info-val">Chunya District, Mbeya Region<br/>United Republic of Tanzania</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="contact-form reveal" style="transition-delay:0.15s">
+        <form id="contactForm" novalidate>
+          <!-- Honeypot: hidden field to catch bots -->
+          <input type="text" name="website" id="cf-honeypot" style="display:none;position:absolute;left:-9999px;" tabindex="-1" autocomplete="off" />
+          <div class="form-row">
+            <div class="form-group">
+              <label for="cf-name">Full Name *</label>
+              <input type="text" id="cf-name" name="name" placeholder="Your full name" required />
+              <div class="field-error" id="err-name">Please enter your full name.</div>
+            </div>
+            <div class="form-group">
+              <label for="cf-email">Email Address *</label>
+              <input type="email" id="cf-email" name="email" placeholder="your@email.com" required />
+              <div class="field-error" id="err-email">Please enter a valid email address.</div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="cf-subject">Subject</label>
+            <select id="cf-subject" name="subject">
+              <option value="General Inquiry">General Inquiry</option>
+              <option value="Investment Opportunities">Investment Opportunities</option>
+              <option value="Careers">Careers</option>
+              <option value="Partnership">Partnership</option>
+              <option value="Media & Press">Media &amp; Press</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="cf-message">Message *</label>
+            <textarea id="cf-message" name="message" placeholder="Write your message here..." required maxlength="1000"></textarea>
+            <div class="field-error" id="err-message">Please enter your message.</div>
+            <div class="char-counter" id="charCounter">0 / 1000</div>
+          </div>
+          <button type="submit" class="btn-submit" id="submitBtn">
+            <span class="spinner" id="submitSpinner"></span>
+            <span id="submitBtnText">Send Message →</span>
+          </button>
+          <div class="form-feedback" id="formSuccess">
+            <span>✅</span>
+            <span id="successMsg">Your message has been sent! We'll get back to you soon.</span>
+          </div>
+          <div class="form-feedback" id="formError">
+            <span>⚠️</span>
+            <span>Failed to send message. Please try again or email us at <a href="mailto:info@afrigold.co.tz" style="color:var(--red);">info@afrigold.co.tz</a></span>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== FOOTER ==================== -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <img src="LOGO.jpeg" alt="AFRIGOLD Logo" />
+        <div class="footer-brand-name">AFRIGOLD AND MINING INV. CO. LIMITED</div>
+        <p class="footer-tagline">Transforming Natural Resources Into Sustainable Human Development. A gold mining leader rooted in Chunya, Mbeya, Tanzania.</p>
+        <div class="footer-social">
+          <a href="#" aria-label="LinkedIn" title="LinkedIn">💼</a>
+          <a href="#" aria-label="Twitter" title="Twitter">🐦</a>
+          <a href="#" aria-label="Facebook" title="Facebook">📘</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="#hero">Home</a></li>
+          <li><a href="#history">Our History</a></li>
+          <li><a href="#about">About Us</a></li>
+          <li><a href="#leadership">Leadership</a></li>
+          <li><a href="#values">Core Values</a></li>
+          <li><a href="#health-safety">Health &amp; Safety</a></li>
+          <li><a href="#environment">Environment</a></li>
+          <li><a href="#csr">CSR</a></li>
+          <li><a href="#careers">Careers</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Contact Info</h4>
+        <div class="footer-contact-item">
+          <span class="footer-contact-icon">📍</span>
+          <span class="footer-contact-text">P.O. Box 171, Chunya, Mbeya,<br/>United Republic of Tanzania</span>
+        </div>
+        <div class="footer-contact-item">
+          <span class="footer-contact-icon">📧</span>
+          <span class="footer-contact-text"><a href="mailto:info@afrigold.co.tz" style="color:var(--gray);">info@afrigold.co.tz</a></span>
+        </div>
+        <div class="footer-contact-item">
+          <span class="footer-contact-icon">📧</span>
+          <span class="footer-contact-text"><a href="mailto:hr@afrigold.co.tz" style="color:var(--gray);">hr@afrigold.co.tz</a> (Careers)</span>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p class="footer-copy">© 2026 AFRIGOLD AND MINING INV. CO. LIMITED. All Rights Reserved.</p>
+      <div class="footer-admin"><a href="admin.html">Admin Portal</a></div>
+    </div>
+  </div>
+</footer>
+
+<!-- ==================== JAVASCRIPT ==================== -->
+<script>
+  /* ---- Navbar scroll ---- */
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    navbar.classList.toggle('scrolled', window.scrollY > 50);
+  }, { passive: true });
+
+  /* ---- Hamburger ---- */
+  const hamburger = document.getElementById('hamburger');
+  const mobileMenu = document.getElementById('mobileMenu');
+  hamburger.addEventListener('click', () => {
+    hamburger.classList.toggle('open');
+    mobileMenu.classList.toggle('open');
+    document.body.style.overflow = mobileMenu.classList.contains('open') ? 'hidden' : '';
+  });
+  function closeMobile() {
+    hamburger.classList.remove('open');
+    mobileMenu.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  /* ---- Active nav link on scroll ---- */
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('.nav-links a[href^="#"]');
+  function updateActiveNav() {
+    let current = '';
+    sections.forEach(s => {
+      if (window.scrollY >= s.offsetTop - 120) current = s.id;
+    });
+    navLinks.forEach(a => {
+      a.classList.toggle('active', a.getAttribute('href') === '#' + current);
+    });
+  }
+  window.addEventListener('scroll', updateActiveNav, { passive: true });
+  updateActiveNav();
+
+  /* ---- Reveal on scroll ---- */
+  const revealEls = document.querySelectorAll('.reveal');
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); revealObserver.unobserve(e.target); } });
+  }, { threshold: 0.12 });
+  revealEls.forEach(el => revealObserver.observe(el));
+
+  /* ---- Gold particles ---- */
+  const particleContainer = document.getElementById('heroParticles');
+  for (let i = 0; i < 40; i++) {
+    const p = document.createElement('div');
+    p.className = 'particle';
+    const size = Math.random() * 6 + 2;
+    const left = Math.random() * 100;
+    const delay = Math.random() * 15;
+    const duration = Math.random() * 10 + 10;
+    p.style.cssText = `width:${size}px;height:${size}px;left:${left}%;animation-duration:${duration}s;animation-delay:${delay}s;`;
+    particleContainer.appendChild(p);
+  }
+
+  /* ---- Loader ---- */
+  window.addEventListener('load', () => {
+    setTimeout(() => {
+      document.getElementById('loader').classList.add('hidden');
+    }, 1500);
+  });
+
+  /* ---- Scroll to top ---- */
+  const scrollTopBtn = document.getElementById('scrollTop');
+  window.addEventListener('scroll', () => {
+    scrollTopBtn.classList.toggle('visible', window.scrollY > 400);
+  }, { passive: true });
+</script>
+
+<!-- ==================== FIREBASE MODULE ==================== -->
+<script type="module">
+  import { initializeApp }     from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { getFirestore, collection, addDoc, doc, getDoc, serverTimestamp }
+    from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+  import { getStorage, ref, getDownloadURL }
+    from "https://www.gstatic.com/firebasejs/10.12.0/firebase-storage.js";
+
+  /* ---- Firebase Config — edit firebase-config.js with your real values ---- */
+  import { firebaseConfig } from './firebase-config.js';
+
+  /* ---- Graceful init ---- */
+  let db = null;
+  let storage = null;
+  try {
+    const app = initializeApp(firebaseConfig);
+    db      = getFirestore(app);
+    storage = getStorage(app);
+  } catch (err) {
+    console.warn('[AFRIGOLD] Firebase init skipped — config not set.', err.message);
+  }
+
+  /* ============================================================
+     HELPER: safe getDoc — returns data or null
+  ============================================================ */
+  async function safeGet(docRef) {
+    try {
+      const snap = await getDoc(docRef);
+      return snap.exists() ? snap.data() : null;
+    } catch (e) {
+      console.warn('[AFRIGOLD] Firestore read error:', e.message);
+      return null;
+    }
+  }
+
+  /* ============================================================
+     LOAD DYNAMIC CONTENT FROM FIRESTORE
+  ============================================================ */
+  async function loadContent() {
+    if (!db) return;
+
+    /* -- Hero -- */
+    const hero = await safeGet(doc(db, 'content', 'hero'));
+    if (hero) {
+      if (hero.title)    document.getElementById('heroTitle').textContent    = hero.title;
+      if (hero.subtitle) document.getElementById('heroSubtitle').textContent = hero.subtitle;
+    }
+
+    /* -- About -- */
+    const about = await safeGet(doc(db, 'content', 'about'));
+    if (about) {
+      if (about.description) document.getElementById('aboutDesc').textContent    = about.description;
+      if (about.vision)      document.getElementById('aboutVision').textContent  = about.vision;
+      if (about.mission)     document.getElementById('aboutMission').textContent = about.mission;
+    }
+
+    /* -- History -- */
+    const history = await safeGet(doc(db, 'content', 'history'));
+    if (history) {
+      if (history.text1) document.getElementById('historyText1').textContent = history.text1;
+      if (history.text2) document.getElementById('historyText2').textContent = history.text2;
+    }
+
+    /* -- MD Message -- */
+    const md = await safeGet(doc(db, 'content', 'md_message'));
+    if (md && md.text) {
+      const container = document.getElementById('mdMessage');
+      container.innerHTML = '';
+      (Array.isArray(md.text) ? md.text : [md.text]).forEach(para => {
+        const p = document.createElement('p');
+        p.textContent = para;
+        container.appendChild(p);
+      });
+    }
+
+    /* -- Contact info -- */
+    const contact = await safeGet(doc(db, 'content', 'contact'));
+    if (contact) {
+      if (contact.address) document.getElementById('contactAddress').textContent = contact.address;
+      if (contact.email1) {
+        const el = document.getElementById('contactEmail1');
+        el.textContent = contact.email1;
+        el.href = 'mailto:' + contact.email1;
+      }
+    }
+  }
+
+  /* ============================================================
+     LOAD HERO IMAGE FROM FIRESTORE / STORAGE
+  ============================================================ */
+  async function loadHeroImage() {
+    if (!db || !storage) return;
+    try {
+      // Check Firestore 'images' collection for hero image
+      const heroImgDoc = await safeGet(doc(db, 'images', 'hero'));
+      if (heroImgDoc && heroImgDoc.storagePath) {
+        const url = await getDownloadURL(ref(storage, heroImgDoc.storagePath));
+        document.getElementById('heroBg').style.backgroundImage = `url('${url}')`;
+      } else if (heroImgDoc && heroImgDoc.url) {
+        document.getElementById('heroBg').style.backgroundImage = `url('${heroImgDoc.url}')`;
+      }
+    } catch (e) {
+      console.warn('[AFRIGOLD] Hero image load error:', e.message);
+    }
+  }
+
+  /* ============================================================
+     LOAD GALLERY IMAGES FROM FIRESTORE / STORAGE
+  ============================================================ */
+  async function loadGalleryImages() {
+    if (!db || !storage) return;
+    try {
+      // Check for about section images
+      const aboutImgDoc = await safeGet(doc(db, 'images', 'about'));
+      if (aboutImgDoc && aboutImgDoc.urls && Array.isArray(aboutImgDoc.urls)) {
+        const grid = document.getElementById('aboutImageGrid');
+        const imgs = grid.querySelectorAll('img');
+        aboutImgDoc.urls.forEach((url, i) => {
+          if (imgs[i] && url) imgs[i].src = url;
+        });
+      }
+    } catch (e) {
+      console.warn('[AFRIGOLD] Gallery images load error:', e.message);
+    }
+  }
+
+  /* ============================================================
+     CONTACT FORM → FIRESTORE
+  ============================================================ */
+  const contactForm   = document.getElementById('contactForm');
+  const submitBtn     = document.getElementById('submitBtn');
+  const submitBtnText = document.getElementById('submitBtnText');
+  const submitSpinner = document.getElementById('submitSpinner');
+  const formSuccess   = document.getElementById('formSuccess');
+  const formError     = document.getElementById('formError');
+  const successMsg    = document.getElementById('successMsg');
+
+  /* ---- Character counter ---- */
+  const msgTextarea = document.getElementById('cf-message');
+  const charCounter = document.getElementById('charCounter');
+  msgTextarea.addEventListener('input', () => {
+    const len = msgTextarea.value.length;
+    charCounter.textContent = `${len} / 1000`;
+    charCounter.classList.toggle('warn', len > 950);
+  });
+
+  /* ---- Inline field-error helpers ---- */
+  function showFieldError(id, show) {
+    const el = document.getElementById(id);
+    if (el) el.classList.toggle('visible', show);
+  }
+  function clearFieldErrors() {
+    ['err-name','err-email','err-message'].forEach(id => showFieldError(id, false));
+  }
+
+  contactForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    formSuccess.style.display = 'none';
+    formError.style.display   = 'none';
+    clearFieldErrors();
+
+    /* Honeypot check */
+    const honeypot = document.getElementById('cf-honeypot');
+    if (honeypot && honeypot.value) {
+      /* Bot detected — silently reject */
+      formSuccess.style.display = 'flex';
+      successMsg.textContent = "Your message has been sent! We'll get back to you soon.";
+      contactForm.reset();
+      charCounter.textContent = '0 / 1000';
+      return;
+    }
+
+    /* Rate limit: block re-submit within 60 seconds */
+    const lastSubmit = parseInt(localStorage.getItem('afrigold_last_submit') || '0', 10);
+    const now = Date.now();
+    if (now - lastSubmit < 60000) {
+      const wait = Math.ceil((60000 - (now - lastSubmit)) / 1000);
+      formError.style.display = 'flex';
+      formError.querySelector('span:last-child').innerHTML =
+        `Please wait ${wait} second${wait !== 1 ? 's' : ''} before sending another message.`;
+      return;
+    }
+
+    const name    = document.getElementById('cf-name').value.trim();
+    const email   = document.getElementById('cf-email').value.trim();
+    const subject = document.getElementById('cf-subject').value;
+    const message = document.getElementById('cf-message').value.trim();
+
+    /* Inline validation */
+    let hasError = false;
+    if (!name) { showFieldError('err-name', true); hasError = true; }
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { showFieldError('err-email', true); hasError = true; }
+    if (!message) { showFieldError('err-message', true); hasError = true; }
+    if (hasError) return;
+
+    /* Disable button, show spinner */
+    submitBtn.disabled = true;
+    submitBtnText.textContent = 'Sending...';
+    submitSpinner.classList.add('active');
+
+    if (!db) {
+      /* Firebase not configured — simulate error gracefully */
+      setTimeout(() => {
+        submitBtn.disabled = false;
+        submitBtnText.textContent = 'Send Message →';
+        submitSpinner.classList.remove('active');
+        formError.style.display = 'flex';
+        formError.querySelector('span:last-child').innerHTML =
+          'Failed to send message. Please email us directly at <a href="mailto:info@afrigold.co.tz" style="color:var(--red);">info@afrigold.co.tz</a>';
+      }, 1200);
+      return;
+    }
+
+    try {
+      await addDoc(collection(db, 'messages'), {
+        name,
+        email,
+        subject,
+        message,
+        timestamp: serverTimestamp(),
+        read: false
+      });
+
+      /* Success */
+      localStorage.setItem('afrigold_last_submit', String(Date.now()));
+      submitBtnText.textContent = 'Message Sent ✓';
+      submitSpinner.classList.remove('active');
+      successMsg.textContent = `Your message has been sent! We'll get back to you at ${email}.`;
+      formSuccess.style.display = 'flex';
+      contactForm.reset();
+      charCounter.textContent = '0 / 1000';
+
+      setTimeout(() => {
+        submitBtn.disabled = false;
+        submitBtnText.textContent = 'Send Message →';
+      }, 4000);
+
+    } catch (err) {
+      console.error('[AFRIGOLD] Form submit error:', err);
+      submitBtn.disabled = false;
+      submitBtnText.textContent = 'Send Message →';
+      submitSpinner.classList.remove('active');
+      formError.style.display = 'flex';
+      formError.querySelector('span:last-child').innerHTML =
+        'Failed to send message. Please try again or email us at <a href="mailto:info@afrigold.co.tz" style="color:var(--red);">info@afrigold.co.tz</a>';
+    }
+  });
+
+  /* ============================================================
+     INIT ON DOM READY
+  ============================================================ */
+  document.addEventListener('DOMContentLoaded', async () => {
+    await Promise.allSettled([
+      loadContent(),
+      loadHeroImage(),
+      loadGalleryImages()
+    ]);
+  });
+
+  // Also trigger immediately if DOM already loaded
+  if (document.readyState !== 'loading') {
+    Promise.allSettled([loadContent(), loadHeroImage(), loadGalleryImages()]);
+  }
+</script>
+
+<!-- ==================== SCROLL TOP + WHATSAPP FLOAT ==================== -->
+<button class="scroll-top" id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Back to top">
+  <svg viewBox="0 0 24 24"><path d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"/></svg>
+</button>
+
+<a href="https://wa.me/255000000000" target="_blank" rel="noopener" class="whatsapp-float" title="Chat on WhatsApp">
+  <span class="wa-tooltip">Chat with us</span>
+  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+  </svg>
+</a>
+
+</body>
+</html>

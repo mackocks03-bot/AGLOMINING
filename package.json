@@ -1,0 +1,25 @@
+{
+  "name": "afrigold-mining",
+  "version": "1.0.0",
+  "description": "AFRIGOLD AND MINING INV. CO. LIMITED — Full Stack React & Express Application",
+  "scripts": {
+    "dev": "concurrently -n \"SERVER,CLIENT\" -c \"yellow,cyan\" \"npm --prefix server start\" \"npm --prefix client run dev\"",
+    "start": "npm --prefix server start",
+    "server": "npm --prefix server start",
+    "client": "npm --prefix client run dev",
+    "build": "npm --prefix client run build",
+    "install:all": "npm --prefix server install && npm --prefix client install"
+  },
+  "keywords": [
+    "afrigold",
+    "mining",
+    "react",
+    "express",
+    "firebase"
+  ],
+  "author": "AFRIGOLD AND MINING INV. CO. LIMITED",
+  "license": "ISC",
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}

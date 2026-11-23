@@ -1,0 +1,2026 @@
+<!-- ADMIN DASHBOARD - Requires Firebase configuration -->
+<!--
+  =============================================================
+  AFRIGOLD AND MINING INV. CO. LIMITED — Admin Dashboard
+  =============================================================
+  SETUP INSTRUCTIONS:
+  1. Go to https://console.firebase.google.com and create a project
+  2. Enable Authentication → Email/Password provider
+  3. Create a Firestore database (start in test mode, then secure with rules)
+  4. Enable Storage bucket
+  5. Register a web app and copy your firebaseConfig values below
+  6. Replace all "YOUR_..." placeholders with your real Firebase credentials
+  7. In Firebase Auth, create an admin user account manually
+  8. Set Firestore rules to allow authenticated users only:
+       rules_version = '2';
+       service cloud.firestore {
+         match /databases/{db}/documents {
+           match /{document=**} {
+             allow read, write: if request.auth != null;
+           }
+         }
+       }
+  9. Set Storage rules similarly:
+       rules_version = '2';
+       service firebase.storage {
+         match /b/{bucket}/o {
+           match /{allPaths=**} {
+             allow read, write: if request.auth != null;
+           }
+         }
+       }
+  =============================================================
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin — AFRIGOLD AND MINING INV. CO. LIMITED</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    /* ============================================================
+       CSS CUSTOM PROPERTIES — matches main site palette
+    ============================================================ */
+    :root {
+      --black-deep:  #0a0a0a;
+      --black-mid:   #111111;
+      --black-card:  #1a1a1a;
+      --black-soft:  #2d2d2d;
+      --black-hover: #252525;
+      --gold-bright: #f0c040;
+      --gold-mid:    #c9a84c;
+      --gold-dark:   #d4af37;
+      --gold-pale:   #f5d98a;
+      --gold-rgba:   rgba(201,168,76,0.18);
+      --gold-border: rgba(201,168,76,0.4);
+      --white:       #ffffff;
+      --white-80:    rgba(255,255,255,0.80);
+      --white-60:    rgba(255,255,255,0.60);
+      --white-30:    rgba(255,255,255,0.30);
+      --white-10:    rgba(255,255,255,0.08);
+      --shadow-gold: 0 0 30px rgba(201,168,76,0.25);
+      --shadow-card: 0 4px 24px rgba(0,0,0,0.5);
+      --transition:  0.3s cubic-bezier(0.25,0.46,0.45,0.94);
+      --radius:      12px;
+      --radius-lg:   20px;
+      --sidebar-w:   260px;
+      --ff-head: 'Playfair Display', Georgia, serif;
+      --ff-body: 'Inter', sans-serif;
+      --success: #22c55e;
+      --error:   #ef4444;
+      --info:    var(--gold-bright);
+    }
+
+    /* ============================================================
+       RESET & BASE
+    ============================================================ */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; font-size: 16px; }
+    body {
+      background: var(--black-deep);
+      color: var(--white);
+      font-family: var(--ff-body);
+      line-height: 1.6;
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+    img { display: block; max-width: 100%; }
+    a { text-decoration: none; color: inherit; }
+    ul { list-style: none; }
+    button { cursor: pointer; border: none; background: none; font-family: var(--ff-body); }
+    input, textarea, select {
+      font-family: var(--ff-body);
+      font-size: 0.95rem;
+    }
+
+    /* ============================================================
+       SCROLLBAR
+    ============================================================ */
+    ::-webkit-scrollbar { width: 5px; height: 5px; }
+    ::-webkit-scrollbar-track { background: var(--black-mid); }
+    ::-webkit-scrollbar-thumb { background: var(--gold-mid); border-radius: 3px; }
+
+    /* ============================================================
+       LOGIN SCREEN
+    ============================================================ */
+    #login-screen {
+      position: fixed; inset: 0;
+      background: radial-gradient(ellipse at 20% 50%, rgba(201,168,76,0.08) 0%, transparent 60%),
+                  var(--black-deep);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      transition: opacity 0.4s ease;
+    }
+    #login-screen.hidden { opacity: 0; pointer-events: none; }
+
+    .login-box {
+      background: var(--black-card);
+      border: 1px solid var(--gold-border);
+      border-radius: var(--radius-lg);
+      padding: 3rem 2.5rem;
+      width: 100%;
+      max-width: 420px;
+      box-shadow: var(--shadow-gold), var(--shadow-card);
+      text-align: center;
+    }
+    .login-logo {
+      width: 72px; height: 72px;
+      border-radius: 50%;
+      border: 2px solid var(--gold-mid);
+      margin: 0 auto 1.2rem;
+      overflow: hidden;
+      background: var(--black-soft);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2rem;
+    }
+    .login-logo img { width: 100%; height: 100%; object-fit: cover; }
+    .login-box h1 {
+      font-family: var(--ff-head);
+      font-size: 1.5rem;
+      color: var(--gold-bright);
+      letter-spacing: 0.03em;
+      margin-bottom: 0.3rem;
+    }
+    .login-box p.sub {
+      font-size: 0.8rem;
+      color: var(--white-60);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      margin-bottom: 2rem;
+    }
+    .form-group { margin-bottom: 1.2rem; text-align: left; }
+    .form-group label {
+      display: block;
+      font-size: 0.78rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--gold-mid);
+      margin-bottom: 0.4rem;
+    }
+    .form-group input, .form-group textarea, .form-group select {
+      width: 100%;
+      background: var(--black-soft);
+      border: 1px solid rgba(201,168,76,0.3);
+      border-radius: var(--radius);
+      color: var(--white);
+      padding: 0.75rem 1rem;
+      outline: none;
+      transition: border-color var(--transition), box-shadow var(--transition);
+    }
+    .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
+      border-color: var(--gold-mid);
+      box-shadow: 0 0 0 3px rgba(201,168,76,0.12);
+    }
+    .form-group textarea { resize: vertical; min-height: 100px; }
+    .form-group select {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%23c9a84c' d='M6 8L0 0h12z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 1rem center;
+      appearance: none;
+      cursor: pointer;
+    }
+
+    .btn-gold {
+      display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
+      background: linear-gradient(135deg, var(--gold-mid), var(--gold-bright));
+      color: var(--black-deep);
+      font-weight: 700;
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      border-radius: var(--radius);
+      padding: 0.75rem 1.8rem;
+      transition: transform var(--transition), box-shadow var(--transition), opacity var(--transition);
+      cursor: pointer;
+      border: none;
+    }
+    .btn-gold:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(201,168,76,0.4); }
+    .btn-gold:active { transform: translateY(0); }
+    .btn-gold:disabled { opacity: 0.6; pointer-events: none; }
+    .btn-gold.full { width: 100%; }
+
+    .btn-outline {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      background: transparent;
+      color: var(--gold-mid);
+      border: 1px solid var(--gold-border);
+      border-radius: 8px;
+      padding: 0.45rem 0.9rem;
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background var(--transition), color var(--transition);
+    }
+    .btn-outline:hover { background: var(--gold-rgba); color: var(--gold-bright); }
+
+    .btn-danger {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      background: rgba(239,68,68,0.15);
+      color: #f87171;
+      border: 1px solid rgba(239,68,68,0.3);
+      border-radius: 8px;
+      padding: 0.45rem 0.9rem;
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background var(--transition);
+    }
+    .btn-danger:hover { background: rgba(239,68,68,0.3); }
+
+    .btn-sm { padding: 0.3rem 0.7rem; font-size: 0.75rem; }
+
+    .login-error {
+      background: rgba(239,68,68,0.15);
+      border: 1px solid rgba(239,68,68,0.4);
+      color: #f87171;
+      border-radius: 8px;
+      padding: 0.7rem 1rem;
+      font-size: 0.85rem;
+      margin-top: 1rem;
+      display: none;
+    }
+    .login-error.show { display: block; }
+
+    /* ============================================================
+       APP SHELL (sidebar layout)
+    ============================================================ */
+    #app {
+      display: flex;
+      min-height: 100vh;
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      pointer-events: none;
+    }
+    #app.visible { opacity: 1; pointer-events: all; }
+
+    /* ============================================================
+       SIDEBAR
+    ============================================================ */
+    #sidebar {
+      width: var(--sidebar-w);
+      background: var(--black-mid);
+      border-right: 1px solid var(--gold-border);
+      position: fixed;
+      top: 0; left: 0; bottom: 0;
+      display: flex; flex-direction: column;
+      z-index: 100;
+      transition: transform var(--transition);
+      overflow-y: auto;
+    }
+
+    .sidebar-header {
+      padding: 1.5rem 1.2rem;
+      border-bottom: 1px solid rgba(201,168,76,0.15);
+      display: flex; align-items: center; gap: 0.8rem;
+    }
+    .sidebar-logo {
+      width: 44px; height: 44px;
+      border-radius: 50%;
+      border: 2px solid var(--gold-mid);
+      overflow: hidden;
+      background: var(--black-soft);
+      flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.3rem;
+    }
+    .sidebar-logo img { width: 100%; height: 100%; object-fit: cover; }
+    .sidebar-brand { flex: 1; min-width: 0; }
+    .sidebar-brand .name {
+      font-family: var(--ff-head);
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--gold-bright);
+      line-height: 1.2;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .sidebar-brand .role {
+      font-size: 0.65rem;
+      color: var(--white-60);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    .sidebar-nav { flex: 1; padding: 1rem 0.6rem; }
+    .nav-item {
+      display: flex; align-items: center; gap: 0.75rem;
+      padding: 0.75rem 0.9rem;
+      border-radius: 10px;
+      color: var(--white-60);
+      cursor: pointer;
+      transition: background var(--transition), color var(--transition);
+      font-size: 0.88rem;
+      font-weight: 500;
+      position: relative;
+      margin-bottom: 0.2rem;
+    }
+    .nav-item:hover { background: var(--white-10); color: var(--white-80); }
+    .nav-item.active {
+      background: var(--gold-rgba);
+      color: var(--gold-bright);
+      border: 1px solid rgba(201,168,76,0.25);
+    }
+    .nav-item .icon { font-size: 1.1rem; flex-shrink: 0; width: 24px; text-align: center; }
+    .nav-item .badge {
+      margin-left: auto;
+      background: var(--error);
+      color: white;
+      font-size: 0.65rem;
+      font-weight: 700;
+      border-radius: 50px;
+      padding: 0.1rem 0.45rem;
+      min-width: 18px;
+      text-align: center;
+      display: none;
+    }
+    .nav-item .badge.show { display: block; }
+
+    .sidebar-footer {
+      padding: 1rem 0.6rem;
+      border-top: 1px solid rgba(201,168,76,0.12);
+    }
+    .admin-email {
+      font-size: 0.72rem;
+      color: var(--white-30);
+      padding: 0 0.9rem 0.6rem;
+      word-break: break-all;
+    }
+
+    /* Hamburger */
+    #hamburger {
+      display: none;
+      position: fixed;
+      top: 1rem; left: 1rem;
+      z-index: 200;
+      background: var(--black-card);
+      border: 1px solid var(--gold-border);
+      border-radius: 8px;
+      width: 42px; height: 42px;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      cursor: pointer;
+    }
+    #hamburger span {
+      display: block; width: 20px; height: 2px;
+      background: var(--gold-mid);
+      border-radius: 2px;
+      transition: transform var(--transition), opacity var(--transition);
+    }
+    #sidebar-overlay {
+      display: none;
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,0.6);
+      z-index: 90;
+    }
+
+    /* ============================================================
+       MAIN CONTENT
+    ============================================================ */
+    #main {
+      flex: 1;
+      margin-left: var(--sidebar-w);
+      padding: 2rem;
+      min-height: 100vh;
+      background: var(--black-deep);
+    }
+
+    /* Tabs */
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+
+    /* ============================================================
+       PAGE HEADER
+    ============================================================ */
+    .page-header {
+      display: flex; align-items: flex-start; justify-content: space-between;
+      flex-wrap: wrap; gap: 1rem;
+      margin-bottom: 2rem;
+    }
+    .page-title {
+      font-family: var(--ff-head);
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--gold-bright);
+    }
+    .page-subtitle {
+      font-size: 0.85rem;
+      color: var(--white-60);
+      margin-top: 0.2rem;
+    }
+
+    /* ============================================================
+       STAT CARDS
+    ============================================================ */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.2rem;
+      margin-bottom: 2rem;
+    }
+    .stat-card {
+      background: var(--black-card);
+      border: 1px solid rgba(201,168,76,0.18);
+      border-radius: var(--radius);
+      padding: 1.4rem 1.5rem;
+      display: flex; align-items: center; gap: 1.2rem;
+      transition: border-color var(--transition), transform var(--transition);
+    }
+    .stat-card:hover { border-color: var(--gold-border); transform: translateY(-2px); }
+    .stat-icon {
+      font-size: 2rem;
+      width: 52px; height: 52px;
+      background: var(--gold-rgba);
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .stat-info .label {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--white-60);
+      margin-bottom: 0.3rem;
+    }
+    .stat-info .value {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--gold-bright);
+      line-height: 1;
+    }
+    .stat-info .value.sm { font-size: 1rem; }
+
+    /* ============================================================
+       PANELS / CARDS
+    ============================================================ */
+    .panel {
+      background: var(--black-card);
+      border: 1px solid rgba(201,168,76,0.15);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+    .panel-header {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 1.2rem;
+      flex-wrap: wrap; gap: 0.8rem;
+    }
+    .panel-title {
+      font-family: var(--ff-head);
+      font-size: 1.1rem;
+      color: var(--gold-bright);
+    }
+
+    /* ============================================================
+       TABLE
+    ============================================================ */
+    .table-wrap { overflow-x: auto; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.85rem;
+    }
+    thead th {
+      background: var(--black-soft);
+      color: var(--gold-mid);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-size: 0.72rem;
+      padding: 0.75rem 0.9rem;
+      text-align: left;
+      white-space: nowrap;
+      position: sticky; top: 0;
+    }
+    tbody tr {
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      transition: background var(--transition);
+    }
+    tbody tr:hover { background: var(--white-10); }
+    tbody tr.unread {
+      border-left: 3px solid var(--gold-mid);
+    }
+    tbody td {
+      padding: 0.8rem 0.9rem;
+      color: var(--white-80);
+      vertical-align: top;
+    }
+    .td-actions { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+    .truncate { max-width: 200px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .msg-expanded { display: none; }
+    .msg-expanded.show { display: block; }
+
+    /* Status badge */
+    .badge-read {
+      display: inline-block;
+      padding: 0.2rem 0.6rem;
+      border-radius: 50px;
+      font-size: 0.7rem;
+      font-weight: 600;
+    }
+    .badge-read.unread { background: rgba(240,192,64,0.15); color: var(--gold-bright); }
+    .badge-read.read { background: rgba(34,197,94,0.12); color: #4ade80; }
+
+    /* Empty state */
+    .empty-state {
+      text-align: center;
+      padding: 3rem 1rem;
+      color: var(--white-30);
+    }
+    .empty-state .empty-icon { font-size: 3rem; margin-bottom: 1rem; }
+    .empty-state p { font-size: 0.9rem; }
+
+    /* ============================================================
+       FILTER BUTTONS
+    ============================================================ */
+    .filter-row { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1rem; }
+    .filter-btn {
+      padding: 0.35rem 0.9rem;
+      border-radius: 50px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      cursor: pointer;
+      border: 1px solid rgba(201,168,76,0.25);
+      background: transparent;
+      color: var(--white-60);
+      transition: all var(--transition);
+    }
+    .filter-btn:hover { border-color: var(--gold-border); color: var(--gold-bright); }
+    .filter-btn.active {
+      background: var(--gold-rgba);
+      border-color: var(--gold-mid);
+      color: var(--gold-bright);
+    }
+
+    /* ============================================================
+       IMAGE MANAGER
+    ============================================================ */
+    .upload-zone {
+      border: 2px dashed var(--gold-border);
+      border-radius: var(--radius-lg);
+      background: var(--gold-rgba);
+      padding: 3rem 2rem;
+      text-align: center;
+      cursor: pointer;
+      transition: border-color var(--transition), background var(--transition);
+      position: relative;
+    }
+    .upload-zone:hover, .upload-zone.drag-over {
+      border-color: var(--gold-bright);
+      background: rgba(201,168,76,0.12);
+    }
+    .upload-zone input[type="file"] {
+      position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%;
+    }
+    .upload-zone .upload-icon { font-size: 2.5rem; margin-bottom: 0.8rem; }
+    .upload-zone p { color: var(--white-60); font-size: 0.88rem; margin-bottom: 0.4rem; }
+    .upload-zone .hint { font-size: 0.75rem; color: var(--white-30); }
+
+    .upload-preview-wrap {
+      display: none;
+      margin-top: 1.2rem;
+      background: var(--black-soft);
+      border-radius: var(--radius);
+      padding: 1rem;
+    }
+    .upload-preview-wrap.show { display: block; }
+    .preview-img-wrap {
+      display: flex; align-items: center; gap: 1rem;
+    }
+    .preview-img-wrap img {
+      width: 80px; height: 80px;
+      object-fit: cover;
+      border-radius: 8px;
+      border: 1px solid var(--gold-border);
+    }
+    .preview-info .filename { font-weight: 600; font-size: 0.9rem; }
+    .preview-info .filesize { font-size: 0.78rem; color: var(--white-60); }
+
+    .progress-bar-wrap {
+      display: none;
+      margin-top: 1rem;
+      background: var(--black-soft);
+      border-radius: 50px;
+      height: 8px;
+      overflow: hidden;
+    }
+    .progress-bar-wrap.show { display: block; }
+    .progress-bar {
+      height: 100%;
+      background: linear-gradient(90deg, var(--gold-mid), var(--gold-bright));
+      border-radius: 50px;
+      width: 0%;
+      transition: width 0.3s ease;
+    }
+    .progress-label { font-size: 0.75rem; color: var(--gold-mid); margin-top: 0.4rem; text-align: right; }
+
+    .image-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+    .img-card {
+      background: var(--black-soft);
+      border: 1px solid rgba(201,168,76,0.15);
+      border-radius: var(--radius);
+      overflow: hidden;
+      transition: border-color var(--transition), transform var(--transition);
+    }
+    .img-card:hover { border-color: var(--gold-border); transform: translateY(-2px); }
+    .img-card-thumb {
+      height: 130px;
+      overflow: hidden;
+      background: var(--black-deep);
+    }
+    .img-card-thumb img {
+      width: 100%; height: 100%; object-fit: cover;
+      transition: transform 0.4s ease;
+    }
+    .img-card:hover .img-card-thumb img { transform: scale(1.05); }
+    .img-card-body { padding: 0.7rem; }
+    .img-card-name {
+      font-size: 0.75rem;
+      font-weight: 600;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      margin-bottom: 0.2rem;
+    }
+    .img-card-section {
+      font-size: 0.65rem;
+      color: var(--gold-mid);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 0.6rem;
+    }
+    .img-card-actions { display: flex; gap: 0.4rem; }
+
+    /* ============================================================
+       CONTENT EDITOR
+    ============================================================ */
+    .content-section {
+      background: var(--black-card);
+      border: 1px solid rgba(201,168,76,0.15);
+      border-radius: var(--radius);
+      margin-bottom: 1.5rem;
+      overflow: hidden;
+    }
+    .content-section-header {
+      background: var(--black-soft);
+      padding: 1rem 1.4rem;
+      display: flex; align-items: center; justify-content: space-between;
+      cursor: pointer;
+      user-select: none;
+      border-bottom: 1px solid rgba(201,168,76,0.1);
+    }
+    .content-section-header h3 {
+      font-family: var(--ff-head);
+      font-size: 1rem;
+      color: var(--gold-bright);
+    }
+    .content-section-header .toggle-icon {
+      color: var(--gold-mid);
+      font-size: 0.9rem;
+      transition: transform var(--transition);
+    }
+    .content-section-header.open .toggle-icon { transform: rotate(180deg); }
+    .content-section-body {
+      padding: 1.4rem;
+      display: none;
+    }
+    .content-section-body.open { display: block; }
+
+    .save-row {
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 0.8rem;
+      margin-top: 1rem;
+    }
+    .last-saved {
+      font-size: 0.75rem;
+      color: var(--white-30);
+    }
+
+    /* ============================================================
+       WELCOME BANNER
+    ============================================================ */
+    .welcome-banner {
+      background: linear-gradient(135deg, var(--black-card) 0%, rgba(201,168,76,0.08) 100%);
+      border: 1px solid var(--gold-border);
+      border-radius: var(--radius-lg);
+      padding: 1.8rem 2rem;
+      margin-bottom: 2rem;
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 1rem;
+    }
+    .welcome-text h2 {
+      font-family: var(--ff-head);
+      font-size: 1.4rem;
+      color: var(--gold-bright);
+      margin-bottom: 0.3rem;
+    }
+    .welcome-text p {
+      font-size: 0.85rem;
+      color: var(--white-60);
+    }
+    .welcome-time {
+      font-size: 0.8rem;
+      color: var(--white-30);
+      text-align: right;
+    }
+
+    /* ============================================================
+       RECENT IMAGES GRID (dashboard)
+    ============================================================ */
+    .recent-imgs {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+      gap: 0.8rem;
+    }
+    .recent-img-card {
+      border-radius: 10px;
+      overflow: hidden;
+      background: var(--black-soft);
+      border: 1px solid rgba(201,168,76,0.12);
+    }
+    .recent-img-card img {
+      width: 100%; height: 90px;
+      object-fit: cover;
+    }
+    .recent-img-label {
+      font-size: 0.65rem;
+      padding: 0.3rem 0.5rem;
+      color: var(--white-60);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* ============================================================
+       TOAST NOTIFICATIONS
+    ============================================================ */
+    #toast-container {
+      position: fixed;
+      bottom: 1.5rem; right: 1.5rem;
+      z-index: 9999;
+      display: flex; flex-direction: column; gap: 0.6rem;
+    }
+    .toast {
+      display: flex; align-items: center; gap: 0.8rem;
+      padding: 0.85rem 1.2rem;
+      border-radius: var(--radius);
+      font-size: 0.85rem;
+      font-weight: 500;
+      max-width: 340px;
+      box-shadow: var(--shadow-card);
+      animation: slideInToast 0.3s ease;
+      cursor: pointer;
+    }
+    .toast.success { background: rgba(34,197,94,0.15); border: 1px solid rgba(34,197,94,0.4); color: #4ade80; }
+    .toast.error   { background: rgba(239,68,68,0.15);  border: 1px solid rgba(239,68,68,0.4);  color: #f87171; }
+    .toast.info    { background: var(--gold-rgba);       border: 1px solid var(--gold-border);   color: var(--gold-bright); }
+    .toast.fade-out { animation: fadeOutToast 0.3s ease forwards; }
+    @keyframes slideInToast {
+      from { transform: translateX(120%); opacity: 0; }
+      to   { transform: translateX(0);    opacity: 1; }
+    }
+    @keyframes fadeOutToast {
+      to { transform: translateX(120%); opacity: 0; }
+    }
+
+    /* ============================================================
+       SPINNER
+    ============================================================ */
+    .spinner {
+      width: 20px; height: 20px;
+      border: 2px solid rgba(255,255,255,0.2);
+      border-top-color: var(--black-deep);
+      border-radius: 50%;
+      animation: spin 0.6s linear infinite;
+      display: inline-block;
+    }
+    .spinner.gold { border: 2px solid rgba(201,168,76,0.2); border-top-color: var(--gold-bright); }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ============================================================
+       LOADING OVERLAY
+    ============================================================ */
+    .loading-overlay {
+      position: absolute; inset: 0;
+      background: rgba(10,10,10,0.7);
+      display: flex; align-items: center; justify-content: center;
+      border-radius: var(--radius);
+      z-index: 10;
+    }
+
+    /* ============================================================
+       DASHBOARD — two column grid
+    ============================================================ */
+    .dash-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+    @media (max-width: 900px) { .dash-grid { grid-template-columns: 1fr; } }
+
+    /* ============================================================
+       RESPONSIVE
+    ============================================================ */
+    @media (max-width: 768px) {
+      #sidebar {
+        transform: translateX(-100%);
+      }
+      #sidebar.mobile-open {
+        transform: translateX(0);
+      }
+      #sidebar-overlay.show { display: block; }
+      #hamburger { display: flex; }
+      #main { margin-left: 0; padding: 1.2rem; padding-top: 4rem; }
+      .stats-grid { grid-template-columns: 1fr 1fr; }
+      .image-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
+    }
+    @media (max-width: 480px) {
+      .stats-grid { grid-template-columns: 1fr; }
+      .login-box { padding: 2rem 1.4rem; }
+    }
+
+    /* ============================================================
+       UTILITY
+    ============================================================ */
+    .hidden { display: none !important; }
+    .mt-1 { margin-top: 0.5rem; }
+    .mt-2 { margin-top: 1rem; }
+    .mt-3 { margin-top: 1.5rem; }
+    .mb-1 { margin-bottom: 0.5rem; }
+    .mb-2 { margin-bottom: 1rem; }
+    .text-gold { color: var(--gold-bright); }
+    .text-muted { color: var(--white-60); }
+    .text-sm { font-size: 0.8rem; }
+    .bold { font-weight: 700; }
+    .divider { border: none; border-top: 1px solid rgba(255,255,255,0.07); margin: 1.2rem 0; }
+    .local-img-note {
+      font-size: 0.75rem;
+      color: var(--white-30);
+      margin-top: 0.3rem;
+    }
+    .section-label {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--gold-mid);
+      font-weight: 600;
+      padding: 0.3rem 0 0.8rem;
+      display: block;
+    }
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+    @media (max-width: 600px) { .two-col { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+
+<!-- ============================================================
+     TOAST CONTAINER
+============================================================ -->
+<div id="toast-container"></div>
+
+<!-- ============================================================
+     LOGIN SCREEN
+============================================================ -->
+<div id="login-screen">
+  <div class="login-box">
+    <div class="login-logo">
+      <img src="LOGO.jpeg" alt="AFRIGOLD Logo" onerror="this.style.display='none';this.parentNode.innerHTML='⛏️'" />
+    </div>
+    <h1>AFRIGOLD &amp; MINING</h1>
+    <p class="sub">Admin Dashboard</p>
+
+    <div class="form-group">
+      <label for="login-email">Email Address</label>
+      <input type="email" id="login-email" placeholder="admin@afrigold.com" autocomplete="email" />
+    </div>
+    <div class="form-group">
+      <label for="login-password">Password</label>
+      <input type="password" id="login-password" placeholder="••••••••••" autocomplete="current-password" />
+    </div>
+
+    <button class="btn-gold full" id="login-btn">Admin Login</button>
+    <div class="login-error" id="login-error"></div>
+  </div>
+</div>
+
+<!-- ============================================================
+     HAMBURGER (mobile)
+============================================================ -->
+<button id="hamburger" aria-label="Toggle sidebar">
+  <span></span><span></span><span></span>
+</button>
+<div id="sidebar-overlay"></div>
+
+<!-- ============================================================
+     APP SHELL
+============================================================ -->
+<div id="app">
+
+  <!-- SIDEBAR -->
+  <nav id="sidebar">
+    <div class="sidebar-header">
+      <div class="sidebar-logo">
+        <img src="LOGO.jpeg" alt="Logo" onerror="this.style.display='none';this.parentNode.innerHTML='⛏️'" />
+      </div>
+      <div class="sidebar-brand">
+        <div class="name">AFRIGOLD</div>
+        <div class="role">Admin Panel</div>
+      </div>
+    </div>
+
+    <div class="sidebar-nav">
+      <div class="nav-item active" data-tab="dashboard">
+        <span class="icon">📊</span>
+        <span>Dashboard</span>
+      </div>
+      <div class="nav-item" data-tab="messages">
+        <span class="icon">💬</span>
+        <span>Messages</span>
+        <span class="badge" id="unread-badge">0</span>
+      </div>
+      <div class="nav-item" data-tab="images">
+        <span class="icon">🖼️</span>
+        <span>Image Manager</span>
+      </div>
+      <div class="nav-item" data-tab="content">
+        <span class="icon">✏️</span>
+        <span>Content Editor</span>
+      </div>
+    </div>
+
+    <div class="sidebar-footer">
+      <div class="admin-email" id="admin-email-label"></div>
+      <div class="nav-item" id="logout-btn">
+        <span class="icon">🚪</span>
+        <span>Logout</span>
+      </div>
+    </div>
+  </nav>
+
+  <!-- MAIN CONTENT -->
+  <main id="main">
+
+    <!-- ======================================================
+         DASHBOARD TAB
+    ====================================================== -->
+    <div class="tab-panel active" id="tab-dashboard">
+      <div class="welcome-banner">
+        <div class="welcome-text">
+          <h2>Welcome back, Admin ✦</h2>
+          <p>AFRIGOLD AND MINING INV. CO. LIMITED — Management Console</p>
+        </div>
+        <div class="welcome-time" id="dash-time"></div>
+      </div>
+
+      <!-- Stat Cards -->
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-icon">💬</div>
+          <div class="stat-info">
+            <div class="label">Total Messages</div>
+            <div class="value" id="stat-total-msgs">—</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">🔔</div>
+          <div class="stat-info">
+            <div class="label">Unread Messages</div>
+            <div class="value" id="stat-unread-msgs">—</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">🖼️</div>
+          <div class="stat-info">
+            <div class="label">Images Uploaded</div>
+            <div class="value" id="stat-images">—</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">🕒</div>
+          <div class="stat-info">
+            <div class="label">Last Activity</div>
+            <div class="value sm" id="stat-last-activity">—</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Two column -->
+      <div class="dash-grid">
+
+        <!-- Recent Messages -->
+        <div class="panel">
+          <div class="panel-header">
+            <div class="panel-title">Recent Messages</div>
+            <button class="btn-outline btn-sm" onclick="switchTab('messages')">View All</button>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Subject</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="dash-recent-msgs">
+                <tr><td colspan="3" class="text-muted text-sm">Loading...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Recent Uploads -->
+        <div class="panel">
+          <div class="panel-header">
+            <div class="panel-title">Recent Uploads</div>
+            <button class="btn-outline btn-sm" onclick="switchTab('images')">View All</button>
+          </div>
+          <div class="recent-imgs" id="dash-recent-imgs">
+            <p class="text-muted text-sm">Loading...</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ======================================================
+         MESSAGES TAB
+    ====================================================== -->
+    <div class="tab-panel" id="tab-messages">
+      <div class="page-header">
+        <div>
+          <div class="page-title">Messages</div>
+          <div class="page-subtitle">Contact form submissions — real-time</div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-header">
+          <div class="filter-row" id="msg-filter-row">
+            <button class="filter-btn active" data-filter="all">All</button>
+            <button class="filter-btn" data-filter="unread">Unread</button>
+            <button class="filter-btn" data-filter="read">Read</button>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Date / Time</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Subject</th>
+                <th>Message</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="messages-table-body">
+              <tr><td colspan="7"><div class="empty-state"><div class="spinner gold"></div></div></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ======================================================
+         IMAGE MANAGER TAB
+    ====================================================== -->
+    <div class="tab-panel" id="tab-images">
+      <div class="page-header">
+        <div>
+          <div class="page-title">Image Manager</div>
+          <div class="page-subtitle">Upload and manage site images via Firebase Storage</div>
+        </div>
+      </div>
+
+      <!-- Upload Panel -->
+      <div class="panel">
+        <div class="panel-title mb-2">Upload New Image</div>
+
+        <div class="upload-zone" id="upload-zone">
+          <input type="file" id="file-input" accept=".jpg,.jpeg,.png,.webp,.gif" />
+          <div class="upload-icon">📁</div>
+          <p><strong>Drag &amp; drop</strong> an image here or <strong>click to browse</strong></p>
+          <p class="hint">Accepts: JPG, JPEG, PNG, WebP • Max recommended: 5MB</p>
+        </div>
+
+        <div class="upload-preview-wrap" id="upload-preview">
+          <div class="preview-img-wrap">
+            <img id="preview-img" src="" alt="Preview" />
+            <div class="preview-info">
+              <div class="filename" id="preview-name">filename.jpg</div>
+              <div class="filesize" id="preview-size">0 KB</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-2">
+          <div class="form-group">
+            <label for="upload-section">Section</label>
+            <select id="upload-section">
+              <option value="hero">Hero Background</option>
+              <option value="about">About Gallery</option>
+              <option value="history">Home / History</option>
+              <option value="scarvetor">Scarvetor Equipment</option>
+              <option value="gallery">General Gallery</option>
+              <option value="logo">Logo</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="progress-bar-wrap" id="progress-wrap">
+          <div class="progress-bar" id="progress-bar"></div>
+        </div>
+        <div class="progress-label hidden" id="progress-label">0%</div>
+
+        <div class="mt-2">
+          <button class="btn-gold" id="upload-btn" disabled>
+            <span id="upload-btn-text">Select a file first</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Local Images Panel -->
+      <div class="panel">
+        <div class="panel-header">
+          <div class="panel-title">Local Site Images</div>
+        </div>
+        <p class="text-muted text-sm mb-2">These images are bundled with the site. Copy their relative path to reference them or upload them to Firebase Storage.</p>
+        <div class="image-grid" id="local-imgs-grid">
+          <!-- filled by JS -->
+        </div>
+      </div>
+
+      <!-- Uploaded Images -->
+      <div class="panel">
+        <div class="panel-header">
+          <div class="panel-title">Firebase Uploaded Images</div>
+          <div class="filter-row" id="img-filter-row">
+            <button class="filter-btn active" data-filter="all">All</button>
+            <button class="filter-btn" data-filter="hero">Hero</button>
+            <button class="filter-btn" data-filter="about">About</button>
+            <button class="filter-btn" data-filter="scarvetor">Scarvetor</button>
+            <button class="filter-btn" data-filter="gallery">Gallery</button>
+          </div>
+        </div>
+        <div class="image-grid" id="firebase-imgs-grid">
+          <p class="text-muted text-sm">Loading images from Firestore...</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ======================================================
+         CONTENT EDITOR TAB
+    ====================================================== -->
+    <div class="tab-panel" id="tab-content">
+      <div class="page-header">
+        <div>
+          <div class="page-title">Content Editor</div>
+          <div class="page-subtitle">Edit site text — changes saved to Firestore</div>
+        </div>
+      </div>
+
+      <!-- 1. Hero Section -->
+      <div class="content-section">
+        <div class="content-section-header" onclick="toggleSection(this)">
+          <h3>🌟 Hero Section</h3>
+          <span class="toggle-icon">▼</span>
+        </div>
+        <div class="content-section-body">
+          <div class="two-col">
+            <div class="form-group">
+              <label>Hero Title</label>
+              <input type="text" id="hero-title" placeholder="e.g. AFRIGOLD AND MINING" />
+            </div>
+            <div class="form-group">
+              <label>Hero Subtitle</label>
+              <input type="text" id="hero-subtitle" placeholder="e.g. Excellence in Mining" />
+            </div>
+          </div>
+          <div class="two-col">
+            <div class="form-group">
+              <label>CTA Button 1 Text</label>
+              <input type="text" id="hero-cta1" placeholder="e.g. Explore Our Services" />
+            </div>
+            <div class="form-group">
+              <label>CTA Button 2 Text</label>
+              <input type="text" id="hero-cta2" placeholder="e.g. Contact Us" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Background Image URL</label>
+            <input type="text" id="hero-bg" placeholder="https://..." />
+          </div>
+          <div class="save-row">
+            <div class="last-saved" id="hero-saved"></div>
+            <button class="btn-gold" onclick="saveContent('hero')">Save Changes</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. History Section -->
+      <div class="content-section">
+        <div class="content-section-header" onclick="toggleSection(this)">
+          <h3>📜 History / Home Section</h3>
+          <span class="toggle-icon">▼</span>
+        </div>
+        <div class="content-section-body">
+          <div class="form-group">
+            <label>Main Paragraph</label>
+            <textarea id="history-p1" rows="5" placeholder="Enter the main history paragraph..."></textarea>
+          </div>
+          <div class="form-group">
+            <label>Second Paragraph</label>
+            <textarea id="history-p2" rows="5" placeholder="Enter the second paragraph..."></textarea>
+          </div>
+          <div class="save-row">
+            <div class="last-saved" id="history-saved"></div>
+            <button class="btn-gold" onclick="saveContent('history')">Save Changes</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. About Us -->
+      <div class="content-section">
+        <div class="content-section-header" onclick="toggleSection(this)">
+          <h3>🏢 About Us Section</h3>
+          <span class="toggle-icon">▼</span>
+        </div>
+        <div class="content-section-body">
+          <div class="form-group">
+            <label>Main Description</label>
+            <textarea id="about-desc" rows="5" placeholder="About the company..."></textarea>
+          </div>
+          <div class="two-col">
+            <div class="form-group">
+              <label>Vision Statement</label>
+              <textarea id="about-vision" rows="4" placeholder="Our vision..."></textarea>
+            </div>
+            <div class="form-group">
+              <label>Mission Statement</label>
+              <textarea id="about-mission" rows="4" placeholder="Our mission..."></textarea>
+            </div>
+          </div>
+          <div class="save-row">
+            <div class="last-saved" id="about-saved"></div>
+            <button class="btn-gold" onclick="saveContent('about')">Save Changes</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4. MD Message -->
+      <div class="content-section">
+        <div class="content-section-header" onclick="toggleSection(this)">
+          <h3>👔 Managing Director Message</h3>
+          <span class="toggle-icon">▼</span>
+        </div>
+        <div class="content-section-body">
+          <div class="form-group">
+            <label>MD Full Message</label>
+            <textarea id="md-message" rows="8" placeholder="Managing Director's message..."></textarea>
+          </div>
+          <div class="two-col">
+            <div class="form-group">
+              <label>MD Name</label>
+              <input type="text" id="md-name" placeholder="e.g. Mr. John Doe" />
+            </div>
+            <div class="form-group">
+              <label>MD Title / Designation</label>
+              <input type="text" id="md-title" placeholder="e.g. Managing Director" />
+            </div>
+          </div>
+          <div class="save-row">
+            <div class="last-saved" id="md_message-saved"></div>
+            <button class="btn-gold" onclick="saveContent('md_message')">Save Changes</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 5. Contact Info -->
+      <div class="content-section">
+        <div class="content-section-header" onclick="toggleSection(this)">
+          <h3>📍 Contact Information</h3>
+          <span class="toggle-icon">▼</span>
+        </div>
+        <div class="content-section-body">
+          <div class="form-group">
+            <label>Office Address</label>
+            <textarea id="contact-address" rows="3" placeholder="Full office address..."></textarea>
+          </div>
+          <div class="two-col">
+            <div class="form-group">
+              <label>Main Email</label>
+              <input type="email" id="contact-email" placeholder="info@afrigold.com" />
+            </div>
+            <div class="form-group">
+              <label>HR Email</label>
+              <input type="email" id="contact-hremail" placeholder="hr@afrigold.com" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Phone (optional)</label>
+            <input type="tel" id="contact-phone" placeholder="+234 ..." />
+          </div>
+          <div class="save-row">
+            <div class="last-saved" id="contact-saved"></div>
+            <button class="btn-gold" onclick="saveContent('contact')">Save Changes</button>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- end tab-content -->
+
+  </main>
+</div><!-- end #app -->
+
+
+<!-- ============================================================
+     FIREBASE + APP LOGIC
+============================================================ -->
+<script type="module">
+  import { initializeApp }                              from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged }
+                                                        from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+  import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc,
+           onSnapshot, orderBy, query, updateDoc, setDoc, getDoc,
+           serverTimestamp }                            from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+  import { getStorage, ref as sRef, uploadBytesResumable, getDownloadURL, deleteObject }
+                                                        from "https://www.gstatic.com/firebasejs/10.12.0/firebase-storage.js";
+
+  /* ============================================================
+     FIREBASE CONFIG — edit firebase-config.js with your real values
+  ============================================================ */
+  import { firebaseConfig } from './firebase-config.js';
+
+  /* ============================================================
+     INIT
+  ============================================================ */
+  const app  = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db   = getFirestore(app);
+  const storage = getStorage(app);
+
+  /* ============================================================
+     STATE
+  ============================================================ */
+  let allMessages    = [];
+  let allImages      = [];
+  let msgFilter      = 'all';
+  let imgFilter      = 'all';
+  let selectedFile   = null;
+  let unsubMessages  = null;
+  let unsubImages    = null;
+  let currentUser    = null;
+
+  /* ============================================================
+     HELPERS
+  ============================================================ */
+  function $(id)   { return document.getElementById(id); }
+  function $$(sel) { return document.querySelectorAll(sel); }
+
+  function formatDate(ts) {
+    if (!ts) return '—';
+    const d = ts.toDate ? ts.toDate() : new Date(ts);
+    return d.toLocaleDateString('en-GB', { day:'2-digit', month:'short', year:'numeric' })
+           + ' ' + d.toLocaleTimeString('en-GB', { hour:'2-digit', minute:'2-digit' });
+  }
+  function timeAgo(ts) {
+    if (!ts) return '—';
+    const d   = ts.toDate ? ts.toDate() : new Date(ts);
+    const sec = Math.floor((Date.now() - d) / 1000);
+    if (sec < 60)   return 'just now';
+    if (sec < 3600) return Math.floor(sec/60)   + 'm ago';
+    if (sec < 86400)return Math.floor(sec/3600)  + 'h ago';
+    return Math.floor(sec/86400) + 'd ago';
+  }
+  function fmtSize(bytes) {
+    if (bytes < 1024) return bytes + ' B';
+    if (bytes < 1048576) return (bytes/1024).toFixed(1) + ' KB';
+    return (bytes/1048576).toFixed(1) + ' MB';
+  }
+  function escHtml(str) {
+    return String(str||'')
+      .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+      .replace(/"/g,'&quot;');
+  }
+
+  /* ============================================================
+     TOAST
+  ============================================================ */
+  function toast(msg, type = 'info') {
+    const icons = { success:'✅', error:'❌', info:'ℹ️' };
+    const el = document.createElement('div');
+    el.className = `toast ${type}`;
+    el.innerHTML = `<span>${icons[type]||'ℹ️'}</span><span>${escHtml(msg)}</span>`;
+    el.onclick = () => removeToast(el);
+    $('toast-container').appendChild(el);
+    setTimeout(() => removeToast(el), 3500);
+  }
+  function removeToast(el) {
+    el.classList.add('fade-out');
+    setTimeout(() => el.remove(), 350);
+  }
+
+  /* ============================================================
+     LOGIN / AUTH
+  ============================================================ */
+  const loginScreen = $('login-screen');
+  const appShell    = $('app');
+
+  function showApp(user) {
+    currentUser = user;
+    $('admin-email-label').textContent = user.email;
+    loginScreen.classList.add('hidden');
+    appShell.classList.add('visible');
+    initRealtime();
+    loadContentFields();
+    renderLocalImages();
+    updateDashTime();
+    setInterval(updateDashTime, 60000);
+  }
+  function showLogin() {
+    loginScreen.classList.remove('hidden');
+    appShell.classList.remove('visible');
+    if (unsubMessages)  { unsubMessages();  unsubMessages  = null; }
+    if (unsubImages)    { unsubImages();    unsubImages    = null; }
+  }
+
+  onAuthStateChanged(auth, user => {
+    if (user) showApp(user);
+    else       showLogin();
+  });
+
+  $('login-btn').addEventListener('click', async () => {
+    const email    = $('login-email').value.trim();
+    const password = $('login-password').value;
+    const errEl    = $('login-error');
+    const btn      = $('login-btn');
+
+    errEl.classList.remove('show');
+    if (!email || !password) {
+      errEl.textContent = 'Please enter your email and password.';
+      errEl.classList.add('show');
+      return;
+    }
+
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spinner"></span> Signing in...';
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+    } catch (err) {
+      const msgs = {
+        'auth/user-not-found':  'No admin account found with that email.',
+        'auth/wrong-password':  'Incorrect password. Please try again.',
+        'auth/invalid-email':   'Invalid email address.',
+        'auth/too-many-requests': 'Too many attempts. Please wait and try again.',
+        'auth/invalid-credential': 'Invalid credentials. Check email and password.',
+      };
+      errEl.textContent = msgs[err.code] || 'Login failed: ' + err.message;
+      errEl.classList.add('show');
+    } finally {
+      btn.disabled = false;
+      btn.innerHTML = 'Admin Login';
+    }
+  });
+
+  $('login-password').addEventListener('keydown', e => {
+    if (e.key === 'Enter') $('login-btn').click();
+  });
+
+  $('logout-btn').addEventListener('click', async () => {
+    if (!confirm('Are you sure you want to logout?')) return;
+    await signOut(auth);
+    toast('Logged out successfully.', 'info');
+  });
+
+  /* ============================================================
+     SIDEBAR / TABS
+  ============================================================ */
+  window.switchTab = function(tabName) {
+    $$('.nav-item').forEach(n => n.classList.remove('active'));
+    $$('.tab-panel').forEach(p => p.classList.remove('active'));
+    const navEl = document.querySelector(`.nav-item[data-tab="${tabName}"]`);
+    if (navEl) navEl.classList.add('active');
+    const panEl = $(`tab-${tabName}`);
+    if (panEl) panEl.classList.add('active');
+    closeMobileSidebar();
+  };
+
+  $$('.nav-item[data-tab]').forEach(el => {
+    el.addEventListener('click', () => switchTab(el.dataset.tab));
+  });
+
+  // Mobile sidebar
+  const hamburger = $('hamburger');
+  const sidebar   = $('sidebar');
+  const overlay   = $('sidebar-overlay');
+  hamburger.addEventListener('click', () => {
+    sidebar.classList.toggle('mobile-open');
+    overlay.classList.toggle('show');
+  });
+  overlay.addEventListener('click', closeMobileSidebar);
+  function closeMobileSidebar() {
+    sidebar.classList.remove('mobile-open');
+    overlay.classList.remove('show');
+  }
+
+  /* ============================================================
+     CONTENT SECTION TOGGLE
+  ============================================================ */
+  window.toggleSection = function(header) {
+    header.classList.toggle('open');
+    const body = header.nextElementSibling;
+    body.classList.toggle('open');
+  };
+
+  /* ============================================================
+     DASHBOARD TIME
+  ============================================================ */
+  function updateDashTime() {
+    const now = new Date();
+    $('dash-time').innerHTML =
+      now.toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long',year:'numeric'}) +
+      '<br>' + now.toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'});
+  }
+
+  /* ============================================================
+     REAL-TIME LISTENERS
+  ============================================================ */
+  function initRealtime() {
+    // Messages
+    const msgQ = query(collection(db, 'messages'), orderBy('timestamp', 'desc'));
+    unsubMessages = onSnapshot(msgQ, snap => {
+      allMessages = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+      renderMessages();
+      renderDashMessages();
+      updateStats();
+    }, err => {
+      console.error('Messages listener error:', err);
+      toast('Could not load messages: ' + err.message, 'error');
+    });
+
+    // Images
+    const imgQ = query(collection(db, 'images'), orderBy('uploadedAt', 'desc'));
+    unsubImages = onSnapshot(imgQ, snap => {
+      allImages = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+      renderFirebaseImages();
+      renderDashImages();
+      updateStats();
+    }, err => {
+      console.error('Images listener error:', err);
+      toast('Could not load images: ' + err.message, 'error');
+    });
+  }
+
+  /* ============================================================
+     UPDATE STATS
+  ============================================================ */
+  function updateStats() {
+    const unread = allMessages.filter(m => !m.read).length;
+    $('stat-total-msgs').textContent  = allMessages.length;
+    $('stat-unread-msgs').textContent = unread;
+    $('stat-images').textContent      = allImages.length;
+
+    // badge
+    const badge = $('unread-badge');
+    badge.textContent = unread;
+    badge.classList.toggle('show', unread > 0);
+
+    // last activity
+    if (allMessages.length > 0 && allMessages[0].timestamp) {
+      $('stat-last-activity').textContent = timeAgo(allMessages[0].timestamp);
+    }
+  }
+
+  /* ============================================================
+     MESSAGES
+  ============================================================ */
+  function renderMessages() {
+    const tbody = $('messages-table-body');
+    let msgs = allMessages;
+    if (msgFilter === 'unread') msgs = msgs.filter(m => !m.read);
+    if (msgFilter === 'read')   msgs = msgs.filter(m =>  m.read);
+
+    if (msgs.length === 0) {
+      tbody.innerHTML = `<tr><td colspan="7">
+        <div class="empty-state">
+          <div class="empty-icon">📭</div>
+          <p>No messages yet${msgFilter !== 'all' ? ' in this filter' : ''}.</p>
+        </div></td></tr>`;
+      return;
+    }
+
+    tbody.innerHTML = msgs.map(m => `
+      <tr class="${m.read ? '' : 'unread'}" id="msg-row-${m.id}">
+        <td style="white-space:nowrap">${formatDate(m.timestamp)}</td>
+        <td class="bold">${escHtml(m.name||'—')}</td>
+        <td><a href="mailto:${escHtml(m.email||'')}" style="color:var(--gold-mid)">${escHtml(m.email||'—')}</a></td>
+        <td>${escHtml(m.subject||'—')}</td>
+        <td>
+          <div class="truncate">${escHtml(m.message||'')}</div>
+          <div class="msg-expanded ${m._expanded?'show':''}" id="msg-exp-${m.id}">${escHtml(m.message||'')}</div>
+          <button class="btn-outline btn-sm mt-1" onclick="toggleMsg('${m.id}')">
+            ${m._expanded ? 'Collapse' : 'Expand'}
+          </button>
+        </td>
+        <td>
+          <span class="badge-read ${m.read ? 'read' : 'unread'}">${m.read ? 'Read' : 'Unread'}</span>
+        </td>
+        <td>
+          <div class="td-actions">
+            ${!m.read ? `<button class="btn-outline btn-sm" onclick="markRead('${m.id}')">✔ Read</button>` : ''}
+            <button class="btn-danger btn-sm" onclick="deleteMessage('${m.id}')">🗑 Delete</button>
+          </div>
+        </td>
+      </tr>
+    `).join('');
+  }
+
+  window.toggleMsg = function(id) {
+    const idx = allMessages.findIndex(m => m.id === id);
+    if (idx < 0) return;
+    allMessages[idx]._expanded = !allMessages[idx]._expanded;
+    renderMessages();
+  };
+
+  window.markRead = async function(id) {
+    try {
+      await updateDoc(doc(db, 'messages', id), { read: true });
+      toast('Message marked as read.', 'success');
+    } catch(e) {
+      toast('Error: ' + e.message, 'error');
+    }
+  };
+
+  window.deleteMessage = async function(id) {
+    if (!confirm('Delete this message? This cannot be undone.')) return;
+    try {
+      await deleteDoc(doc(db, 'messages', id));
+      toast('Message deleted.', 'success');
+    } catch(e) {
+      toast('Error deleting message: ' + e.message, 'error');
+    }
+  };
+
+  // Filter buttons
+  document.addEventListener('click', e => {
+    if (e.target.closest('#msg-filter-row')) {
+      const btn = e.target.closest('.filter-btn');
+      if (!btn) return;
+      $$('#msg-filter-row .filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      msgFilter = btn.dataset.filter;
+      renderMessages();
+    }
+    if (e.target.closest('#img-filter-row')) {
+      const btn = e.target.closest('.filter-btn');
+      if (!btn) return;
+      $$('#img-filter-row .filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      imgFilter = btn.dataset.filter;
+      renderFirebaseImages();
+    }
+  });
+
+  /* ============================================================
+     DASHBOARD RECENT MESSAGES
+  ============================================================ */
+  function renderDashMessages() {
+    const tbody = $('dash-recent-msgs');
+    const recent = allMessages.slice(0, 5);
+    if (recent.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="3" class="text-muted text-sm">No messages yet.</td></tr>';
+      return;
+    }
+    tbody.innerHTML = recent.map(m => `
+      <tr class="${m.read ? '' : 'unread'}">
+        <td class="bold">${escHtml(m.name||'—')}</td>
+        <td class="truncate" style="max-width:120px">${escHtml(m.subject||'—')}</td>
+        <td><span class="badge-read ${m.read?'read':'unread'}">${m.read?'Read':'Unread'}</span></td>
+      </tr>
+    `).join('');
+  }
+
+  /* ============================================================
+     DASHBOARD RECENT IMAGES
+  ============================================================ */
+  function renderDashImages() {
+    const grid = $('dash-recent-imgs');
+    const recent = allImages.slice(0, 4);
+    if (recent.length === 0) {
+      grid.innerHTML = '<p class="text-muted text-sm">No images uploaded yet.</p>';
+      return;
+    }
+    grid.innerHTML = recent.map(img => `
+      <div class="recent-img-card">
+        <img src="${escHtml(img.url||'')}" alt="${escHtml(img.filename||'img')}" loading="lazy"
+             onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22120%22 height=%2290%22><rect fill=%22%231a1a1a%22 width=%22120%22 height=%2290%22/><text x=%2250%%22 y=%2250%%22 fill=%22%23c9a84c%22 text-anchor=%22middle%22 dominant-baseline=%22middle%22 font-size=%2222%22>🖼</text></svg>'" />
+        <div class="recent-img-label">${escHtml(img.filename||'image')}</div>
+      </div>
+    `).join('');
+  }
+
+  /* ============================================================
+     LOCAL IMAGES
+  ============================================================ */
+  function renderLocalImages() {
+    const localFiles = [
+      { name: 'LOGO.jpeg',       label: 'Company Logo' },
+      { name: 'SCARVETOR1.jpeg', label: 'Scarvetor Equipment 1' },
+      { name: 'SCARVETOR2.jpeg', label: 'Scarvetor Equipment 2' },
+      { name: 'SCARVETOR3.jpeg', label: 'Scarvetor Equipment 3' },
+    ];
+    const grid = $('local-imgs-grid');
+    grid.innerHTML = localFiles.map(f => `
+      <div class="img-card">
+        <div class="img-card-thumb">
+          <img src="${f.name}" alt="${escHtml(f.label)}" loading="lazy"
+               onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22180%22 height=%22130%22><rect fill=%22%231a1a1a%22 width=%22180%22 height=%22130%22/><text x=%2250%%22 y=%2250%%22 fill=%22%23c9a84c%22 text-anchor=%22middle%22 dominant-baseline=%22middle%22 font-size=%2228%22>🖼</text></svg>'" />
+        </div>
+        <div class="img-card-body">
+          <div class="img-card-name">${escHtml(f.name)}</div>
+          <div class="img-card-section">${escHtml(f.label)}</div>
+          <div class="img-card-actions">
+            <button class="btn-outline btn-sm" onclick="copyToClipboard('${f.name}')">📋 Copy Path</button>
+          </div>
+          <div class="local-img-note">Local file — relative path</div>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  /* ============================================================
+     FIREBASE IMAGES RENDER
+  ============================================================ */
+  function renderFirebaseImages() {
+    const grid = $('firebase-imgs-grid');
+    let imgs = allImages;
+    if (imgFilter !== 'all') imgs = imgs.filter(i => i.section === imgFilter);
+
+    if (imgs.length === 0) {
+      grid.innerHTML = `<div class="empty-state" style="grid-column:1/-1">
+        <div class="empty-icon">📂</div>
+        <p>No images${imgFilter !== 'all' ? ' in this section' : ' uploaded yet'}.</p>
+      </div>`;
+      return;
+    }
+
+    grid.innerHTML = imgs.map(img => `
+      <div class="img-card">
+        <div class="img-card-thumb">
+          <img src="${escHtml(img.url||'')}" alt="${escHtml(img.filename||'img')}" loading="lazy"
+               onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22180%22 height=%22130%22><rect fill=%22%231a1a1a%22 width=%22180%22 height=%22130%22/><text x=%2250%%22 y=%2250%%22 fill=%22%23c9a84c%22 text-anchor=%22middle%22 dominant-baseline=%22middle%22 font-size=%2228%22>🖼</text></svg>'" />
+        </div>
+        <div class="img-card-body">
+          <div class="img-card-name">${escHtml(img.filename||'—')}</div>
+          <div class="img-card-section">${escHtml(img.section||'general')}</div>
+          <div class="img-card-actions">
+            <button class="btn-outline btn-sm" onclick="copyToClipboard('${escHtml(img.url||'')}')">📋 URL</button>
+            <button class="btn-danger btn-sm" onclick="deleteImage('${img.id}','${escHtml(img.storagePath||'')}')">🗑</button>
+          </div>
+          <div class="text-muted text-sm mt-1">${img.uploadedAt ? timeAgo(img.uploadedAt) : ''}</div>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  /* ============================================================
+     DELETE IMAGE (Storage + Firestore)
+  ============================================================ */
+  window.deleteImage = async function(docId, storagePath) {
+    if (!confirm('Delete this image from Firebase Storage and Firestore?')) return;
+    try {
+      // Delete from Storage
+      if (storagePath) {
+        const storageRef = sRef(storage, storagePath);
+        await deleteObject(storageRef).catch(() => {}); // ignore if already gone
+      }
+      // Delete from Firestore
+      await deleteDoc(doc(db, 'images', docId));
+      toast('Image deleted.', 'success');
+    } catch(e) {
+      toast('Error deleting image: ' + e.message, 'error');
+    }
+  };
+
+  /* ============================================================
+     COPY TO CLIPBOARD
+  ============================================================ */
+  window.copyToClipboard = function(text) {
+    navigator.clipboard.writeText(text).then(() => {
+      toast('Copied to clipboard!', 'success');
+    }).catch(() => {
+      // fallback
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      ta.remove();
+      toast('Copied!', 'success');
+    });
+  };
+
+  /* ============================================================
+     FILE UPLOAD
+  ============================================================ */
+  const uploadZone  = $('upload-zone');
+  const fileInput   = $('file-input');
+  const previewWrap = $('upload-preview');
+  const previewImg  = $('preview-img');
+  const previewName = $('preview-name');
+  const previewSize = $('preview-size');
+  const uploadBtn   = $('upload-btn');
+  const uploadBtnTxt= $('upload-btn-text');
+  const progressWrap= $('progress-wrap');
+  const progressBar = $('progress-bar');
+  const progressLbl = $('progress-label');
+
+  // Drag and Drop
+  uploadZone.addEventListener('dragover', e => {
+    e.preventDefault();
+    uploadZone.classList.add('drag-over');
+  });
+  uploadZone.addEventListener('dragleave', () => uploadZone.classList.remove('drag-over'));
+  uploadZone.addEventListener('drop', e => {
+    e.preventDefault();
+    uploadZone.classList.remove('drag-over');
+    const f = e.dataTransfer.files[0];
+    if (f) handleFileSelect(f);
+  });
+
+  fileInput.addEventListener('change', () => {
+    if (fileInput.files[0]) handleFileSelect(fileInput.files[0]);
+  });
+
+  function handleFileSelect(file) {
+    const allowed = ['image/jpeg','image/jpg','image/png','image/webp','image/gif'];
+    if (!allowed.includes(file.type)) {
+      toast('Unsupported file type. Use JPG, PNG, WebP, or GIF.', 'error');
+      return;
+    }
+    selectedFile = file;
+    previewName.textContent = file.name;
+    previewSize.textContent = fmtSize(file.size);
+    const reader = new FileReader();
+    reader.onload = e => { previewImg.src = e.target.result; };
+    reader.readAsDataURL(file);
+    previewWrap.classList.add('show');
+    uploadBtn.disabled = false;
+    uploadBtnTxt.textContent = `Upload "${file.name}"`;
+  }
+
+  uploadBtn.addEventListener('click', async () => {
+    if (!selectedFile) return;
+    const section  = $('upload-section').value;
+    const filename = Date.now() + '_' + selectedFile.name.replace(/\s+/g,'_');
+    const path     = `site-images/${section}/${filename}`;
+    const storageRef = sRef(storage, path);
+
+    uploadBtn.disabled = true;
+    uploadBtnTxt.textContent = 'Uploading...';
+    progressWrap.classList.add('show');
+    progressLbl.classList.remove('hidden');
+    progressBar.style.width = '0%';
+
+    try {
+      const uploadTask = uploadBytesResumable(storageRef, selectedFile);
+      uploadTask.on('state_changed',
+        snap => {
+          const pct = Math.round((snap.bytesTransferred / snap.totalBytes) * 100);
+          progressBar.style.width = pct + '%';
+          progressLbl.textContent = pct + '%';
+        },
+        err => {
+          toast('Upload failed: ' + err.message, 'error');
+          resetUploadUI();
+        },
+        async () => {
+          const url = await getDownloadURL(uploadTask.snapshot.ref);
+          await addDoc(collection(db, 'images'), {
+            url,
+            section,
+            filename: selectedFile.name,
+            storagePath: path,
+            uploadedAt: serverTimestamp()
+          });
+          toast('Image uploaded successfully!', 'success');
+          resetUploadUI();
+        }
+      );
+    } catch(e) {
+      toast('Error: ' + e.message, 'error');
+      resetUploadUI();
+    }
+  });
+
+  function resetUploadUI() {
+    selectedFile = null;
+    fileInput.value = '';
+    previewWrap.classList.remove('show');
+    progressWrap.classList.remove('show');
+    progressLbl.classList.add('hidden');
+    progressBar.style.width = '0%';
+    uploadBtn.disabled = true;
+    uploadBtnTxt.textContent = 'Select a file first';
+  }
+
+  /* ============================================================
+     CONTENT EDITOR — LOAD
+  ============================================================ */
+  async function loadContentFields() {
+    const sections = ['hero','history','about','md_message','contact'];
+    for (const sec of sections) {
+      try {
+        const snap = await getDoc(doc(db, 'content', sec));
+        if (snap.exists()) populateContent(sec, snap.data());
+      } catch(e) {
+        console.warn('Could not load content section:', sec, e);
+      }
+    }
+  }
+
+  function populateContent(section, data) {
+    const map = {
+      hero:       [['hero-title',data.title],['hero-subtitle',data.subtitle],['hero-cta1',data.cta1],['hero-cta2',data.cta2],['hero-bg',data.bgImageUrl]],
+      history:    [['history-p1',data.paragraph1],['history-p2',data.paragraph2]],
+      about:      [['about-desc',data.description],['about-vision',data.vision],['about-mission',data.mission]],
+      md_message: [['md-message',data.message],['md-name',data.mdName],['md-title',data.mdTitle]],
+      contact:    [['contact-address',data.address],['contact-email',data.email],['contact-hremail',data.hrEmail],['contact-phone',data.phone]],
+    };
+    (map[section]||[]).forEach(([id, val]) => {
+      const el = $(id);
+      if (el && val !== undefined) el.value = val || '';
+    });
+    if (data.savedAt) {
+      const el = $(`${section}-saved`);
+      if (el) el.textContent = 'Last saved: ' + formatDate(data.savedAt);
+    }
+  }
+
+  /* ============================================================
+     CONTENT EDITOR — SAVE
+  ============================================================ */
+  window.saveContent = async function(section) {
+    const getVal = id => { const el = $(id); return el ? el.value.trim() : ''; };
+    const dataMap = {
+      hero: {
+        title: getVal('hero-title'), subtitle: getVal('hero-subtitle'),
+        cta1: getVal('hero-cta1'), cta2: getVal('hero-cta2'),
+        bgImageUrl: getVal('hero-bg')
+      },
+      history: {
+        paragraph1: getVal('history-p1'),
+        paragraph2: getVal('history-p2')
+      },
+      about: {
+        description: getVal('about-desc'),
+        vision: getVal('about-vision'),
+        mission: getVal('about-mission')
+      },
+      md_message: {
+        message: getVal('md-message'),
+        mdName: getVal('md-name'),
+        mdTitle: getVal('md-title')
+      },
+      contact: {
+        address: getVal('contact-address'),
+        email: getVal('contact-email'),
+        hrEmail: getVal('contact-hremail'),
+        phone: getVal('contact-phone')
+      }
+    };
+    const payload = { ...dataMap[section], savedAt: serverTimestamp() };
+
+    try {
+      await setDoc(doc(db, 'content', section), payload, { merge: true });
+      toast('Changes saved!', 'success');
+      const savedEl = $(`${section}-saved`);
+      if (savedEl) savedEl.textContent = 'Last saved: ' + new Date().toLocaleTimeString('en-GB');
+    } catch(e) {
+      toast('Save failed: ' + e.message, 'error');
+    }
+  };
+
+</script>
+
+</body>
+</html>

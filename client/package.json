@@ -1,0 +1,27 @@
+{
+  "name": "afrigold-client",
+  "version": "1.0.0",
+  "description": "AFRIGOLD AND MINING INV. CO. LIMITED — React Frontend",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "axios": "^1.7.2",
+    "firebase": "^13.2.0",
+    "framer-motion": "^11.2.11",
+    "react": "^18.3.1",
+    "react-countup": "^6.5.3",
+    "react-dom": "^18.3.1",
+    "react-dropzone": "^14.2.3",
+    "react-hot-toast": "^2.4.1",
+    "react-intersection-observer": "^9.13.0",
+    "react-router-dom": "^6.24.1"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.3.1",
+    "vite": "^5.3.1"
+  }
+}
